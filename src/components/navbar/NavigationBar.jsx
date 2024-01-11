@@ -1,5 +1,6 @@
 import React from 'react'
 import CompWrapper from '../Utils/CompWrapper'
+import Link from 'next/link'
 
 const Navigation = () => {
     return (
@@ -38,36 +39,36 @@ const Navigation = () => {
   
               
               <div className="hidden md:flex items-center space-x-9">
-                <a
-                  href="#"
+                <Link
+                  href="/explore"
                   className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
                 >
                   Start Investing
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
                 >
                   Learn
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
                 >
                   For Founders
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
                 >
                   Log In
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="py-2 px-4 text-white bg-green-500 rounded hover:bg-green-600 transition duration-300"
                 >
                   Sign Up
-                </a>
+                </Link>
               </div>
   
       
