@@ -12,7 +12,7 @@ const Navigation = () => {
                 <a href="#" className="flex items-center space-x-2">
                   <img src="logo.png" alt="Logo" className="h-8 w-8" />
                   <span className="font-bold text-xl text-gray-800">
-                    RaiseCoin
+                    Raise-Coin
                   </span>
                 </a>
                 <div className="flex items-center border border-gray-170 rounded-xl overflow-hidden">
