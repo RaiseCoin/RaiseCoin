@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebook, FaGoogle, FaRegEnvelope, FaLock } from "react-icons/fa";
+import { FaFacebook, FaGoogle, FaRegEnvelope } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
 
 const signin = () => {
@@ -61,7 +61,7 @@ const signin = () => {
 							</div>
 							<a
 								href="#"
-								className="border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
+								className="mt-11 border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
 								Sign In
 							</a>
 							{/*signin button*/}
@@ -78,7 +78,7 @@ const signin = () => {
 						<br /> No worries, SignUp here.
 					</p>
 					<a
-						href="#"
+						href="/signup"
 						className="border-2 border-white rounded-full px-12 py-2 inline-block font-semibold hover:bg-white hover:text-green-600">
 						Sign Up
 					</a>
