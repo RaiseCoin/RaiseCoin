@@ -3,8 +3,8 @@ import CompWrapper from '../Utils/CompWrapper'
 
 const Steps = () => {
     return (
-        <div className='w-full'>
-            <div className='w-4/5 mx-auto py-20'>
+        <div className='w-full bg-gray-00'>
+            <div className='w-4/5 mx-auto py-28'>
                 <h2 className='text-gray-700 tracking-widest text-4xl font-medium uppercase'>How To Invest </h2>
                 <div className='grid grid-cols-3 text-gray-700 mt-5 gap-10'>
                     <div className='w-full flex flex-col items-start bg-green-50 py-4 px-6 rounded-xl border border-green-300'>

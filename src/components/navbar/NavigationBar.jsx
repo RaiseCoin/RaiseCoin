@@ -43,12 +43,12 @@ const Navigation = () => {
               >
                 Start Investing
               </Link>
-              <Link
+              {/* <Link
                 href="#"
                 className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
               >
                 Learn
-              </Link>
+              </Link> */}
               <Link
                 href="#"
                 className="text-gray-700 font-medium hover:text-green-600 transition duration-300"

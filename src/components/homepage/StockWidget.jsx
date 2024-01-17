@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from "next/image";
+import Link from 'next/link';
 
 const StockWidget = ({e}) => {
     return (
@@ -17,9 +18,9 @@ const StockWidget = ({e}) => {
             <div className="flex flex-col justify-center items-center p-4">
                 <p className="text-xl font-semibold self-start pb-1">{e.name}</p>
                 <p className='text-gray-500 pb-4 text-sm text-justify'>{e.review}</p>
-                <button className="bg-[#023047] self-end text-white text-sm px-6 py-2 rounded-lg">
+                <Link href={"/explore/details"} className="bg-[#023047] self-end text-white text-sm px-6 py-2 rounded-lg">
                     More Details
-                </button>
+                </Link>
             </div>
         </div>
     )
