@@ -1,6 +1,8 @@
 import React from "react";
-import { FaFacebook, FaGoogle, FaRegEnvelope, FaRegUser } from "react-icons/fa";
-import { MdLockOutline } from "react-icons/md";
+import Image from "next/image";
+
+import { FaMobileAlt, FaRegEnvelope, FaRegUser } from "react-icons/fa";
+// import { MdLockOutline } from "react-icons/md";
 
 const signup = () => {
 	return (
@@ -13,22 +15,8 @@ const signup = () => {
 					</div>
 					<div className="py-10">
 						<h2 className="text-3xl font-bold text-green-600 mb-2">Sign Up</h2>
-						<div className="border-2 w-10 border-green-600 inline-block mb-5"></div>
 						{/*green bar*/}
-						<div className="flex justify-center my-2">
-							<a
-								href="#"
-								className="border-2 border-gray-200 rounded-full p-3 mx-1">
-								<FaFacebook className="text-xl text-black" />
-							</a>
-							<a
-								href="#"
-								className="border-2 border-gray-200 rounded-full p-3 mx-1">
-								<FaGoogle className="text-xl text-black" />
-							</a>
-						</div>
-						{/* {other signup options} */}
-						<p className="text-gray-400 my-3">or use email & passowrd</p>
+						<div className="border-2 w-10 border-green-600 inline-block mb-5"></div>
 						<div className="flex flex-col items-center">
 							<div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
 								{/*name section*/}
@@ -37,6 +25,16 @@ const signup = () => {
 									type="text"
 									name="name"
 									placeholder="Full Name"
+									className="bg-gray-200 outline-none text-sm flex-1"
+								/>
+							</div>
+							<div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
+								{/*name section*/}
+								<FaMobileAlt className="text-gray-600 m-2" />
+								<input
+									type="number"
+									name="mobile"
+									placeholder="Mobile"
 									className="bg-gray-200 outline-none text-sm flex-1"
 								/>
 							</div>
@@ -50,25 +48,15 @@ const signup = () => {
 									className="bg-gray-200 outline-none text-sm flex-1"
 								/>
 							</div>
-							<div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
-								{/*password section*/}
-								<MdLockOutline className="text-gray-600 m-2" />
-								<input
-									type="password"
-									name="password"
-									placeholder="Password"
-									className="bg-gray-200 outline-none text-sm flex-1"
+							<button className="logo-button flex items-center mt-3 border-2 pr-3 rounded-xl bg-slate-800" onClick="#">
+								<Image
+									src={`/sign_in/metamask.png`}
+									height={30}
+									width={60}
+									className="logo"
 								/>
-							</div>
-							{/* <div className="flex justify-between w-64 mb-5">
-								<label className="flex items-center text-xs text-black">
-									<input type="checkbox" name="remember" className="mr-1" />
-									Remember me
-								</label>
-								<a href="#" className="text-xs text-black">
-									Forgot Password
-								</a>
-							</div> */}
+								<span className="text">Connect MetaMask</span>
+							</button>
 							<a
 								href="#"
 								className="mt-5 border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
