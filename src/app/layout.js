@@ -3,6 +3,7 @@ import "./globals.css";
 import NavigationBar from "@/components/navbar/NavigationBar";
 import Footer from "@/components/footer/Footer";
 import { usePathname} from "next/navigation";
+import Contact from "@/components/contact-us/contact-us";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
           <NavigationBar />
           {children}
           <Footer />
+          <Contact />
         </main>
       </body>
     </html>
