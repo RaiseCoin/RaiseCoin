@@ -2,12 +2,11 @@ import React from "react";
 import Image from "next/image";
 
 import { FaMobileAlt, FaRegEnvelope, FaRegUser } from "react-icons/fa";
-// import { MdLockOutline } from "react-icons/md";
 
 const signup = () => {
 	return (
-		<div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-			<div className="bg-grey-100 rounded-2xl  shadow-2xl flex w-2/3 max-w-4xl">
+		<div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center bg-gray-100 h-[100vh]">
+			<div className="bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl">
 				<div className="w-3/5 p-5">
 					{/*signup Section*/}
 					<div className="text-left font-bold">
@@ -53,9 +52,9 @@ const signup = () => {
 								onClick="#">
 								<Image
 									src={`/sign_in/metamask.png`}
-									height={30}
+									height={40}
 									width={60}
-									className="logo h-10 w-12"
+									className="logo h-10 w-14"
 								/>
 								<span className="text">Connect MetaMask</span>
 							</button>
