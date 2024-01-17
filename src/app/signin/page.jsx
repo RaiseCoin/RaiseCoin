@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const signin = () => {
@@ -8,7 +9,7 @@ const signin = () => {
 				<div className="w-3/5 p-5">
 					{/*Login Section*/}
 					<div className="text-left font-bold">
-						<span className="text-green-600">RaiseCoin</span>
+						<Link href="/" className="text-green-600">RaiseCoin</Link>
 					</div>
 					<div className="py-10">
 						<h2 className="text-3xl font-bold text-green-600 mb-2">Sign In</h2>

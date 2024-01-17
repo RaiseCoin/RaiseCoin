@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import { FaMobileAlt, FaRegEnvelope, FaRegUser } from "react-icons/fa";
+import Link from "next/link";
 
 const signup = () => {
 	return (
@@ -10,7 +11,7 @@ const signup = () => {
 				<div className="w-3/5 p-5">
 					{/*signup Section*/}
 					<div className="text-left font-bold">
-						<span className="text-green-600">RaiseCoin</span>
+						<Link href="/" className="text-green-600">RaiseCoin</Link>href="/" 
 					</div>
 					<div className="py-10">
 						<h2 className="text-3xl font-bold text-green-600 mb-2">Sign Up</h2>
