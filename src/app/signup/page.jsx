@@ -48,12 +48,14 @@ const signup = () => {
 									className="bg-gray-200 outline-none text-sm flex-1"
 								/>
 							</div>
-							<button className="logo-button flex items-center mt-3 border-2 pr-3 rounded-xl bg-slate-800" onClick="#">
+							<button
+								className="logo-button flex items-center mt-3 border-2 pr-3 rounded-xl bg-slate-800"
+								onClick="#">
 								<Image
 									src={`/sign_in/metamask.png`}
 									height={30}
 									width={60}
-									className="logo"
+									className="logo h-10 w-12"
 								/>
 								<span className="text">Connect MetaMask</span>
 							</button>
