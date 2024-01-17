@@ -1,6 +1,6 @@
 import React from "react";
 import "swiper/css";
-import StockWidget from "../Utils/StockWidget";
+import StockWidget from "./StockWidget";
 
 const Recommendations = ({ title }) => {
 	const data = [
@@ -19,12 +19,12 @@ const Recommendations = ({ title }) => {
 			name: `ACME AtronOmatic`,
 			review: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
 		},
-		
+
 	];
 	return (
-		<div className="w-full bg-gray-700">
-			<div className="w-3/4 m-auto py-14">
-				<h1 className="text-3xl text-gray-100 font-semibold text-left pb-10">
+		<div className="w-full bg-gray-100 ">
+			<div className="w-4/5 m-auto py-14">
+				<h1 className="text-3xl text-gray-700 font-semibold text-left pb-10">
 					{title}
 				</h1>
 				<div className="grid grid-cols-3 gap-7">
