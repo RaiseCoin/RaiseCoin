@@ -1,13 +1,13 @@
 // pages/contact.js
 import Head from 'next/head'
 
-export default function Contact() {
+export default function Page() {
   return (
     <div className="bg-gray-800 min-h-screen flex justify-center items-center">
       <Head>
         <title>Contact Us - RaiseCoin</title>
       </Head>
-      
+
       <div className="container p-8 max-w-lg">
         <h1 className="text-3xl font-bold text-white mb-4 text-center">Contact Us</h1>
         <p className="text-gray-300 mb-8 text-center">
@@ -19,19 +19,19 @@ export default function Contact() {
             <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="first-name">
               First Name
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="first-name" type="text" placeholder="Jane"/>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="first-name" type="text" placeholder="Jane" />
           </div>
           <div className="mb-6">
             <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="last-name">
               Last Name
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="last-name" type="text" placeholder="Doe"/>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="last-name" type="text" placeholder="Doe" />
           </div>
           <div className="mb-6">
             <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="email">
               Email
             </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="email@example.com"/>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="email@example.com" />
           </div>
           <div className="mb-6">
             <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="message">
