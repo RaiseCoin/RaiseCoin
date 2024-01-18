@@ -8,55 +8,38 @@ import { usePathname } from 'next/navigation'
 const Footer = () => {
     const path = usePathname();
     return (
-        <>
-            {path == "/signin" || path== "/signup" ? <></> :
-                <footer className="bg-gray-900 w-full">
-                    <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-                        <div className="md:flex md:justify-between">
-                            <div className="mb-6 md:mb-0">
-                                <Link href="https://flowbite.com/" className="flex items-center">
-                                    <Image width={300} height={200} src="/logo.png" className="w-150" alt="FlowBite Logo" />
-                                    {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
-                                </Link>
-                            </div>
-                            <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-                                <div>
-                                    <h2 className="mb-6 text-sm font-semibold uppercase text-white">Get To Know Us</h2>
-                                    <ul className="text-gray-400 font-medium">
-                                        <li className="mb-4">
-                                            <Link href="/" className="hover:underline">Our Team</Link>
-                                        </li>
-                                        <li className="mb-4">
-                                            <Link href="/" className="hover:underline">Career</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/" className="hover:underline">Blogs</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2 className="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
-                                    <ul className="text-gray-400 font-medium">
-                                        <li className="mb-4">
-                                            <Link href="https://github.com/themesberg/flowbite" className="hover:underline ">Github</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2 className="mb-6 text-sm font-semibold uppercase text-white">Legal</h2>
-                                    <ul className="text-gray-400 font-medium">
-                                        <li className="mb-4">
-                                            <Link href="#" className="hover:underline">Privacy Policy</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#" className="hover:underline">Terms &amp; Conditions</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+        <footer className="bg-gray-900 w-full">
+            <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+                <div className="md:flex md:justify-between">
+                    <div className="mb-6 md:mb-0">
+                        <Link href="https://flowbite.com/" className="flex items-center">
+                            <Image width={300} height={200} src="/logo.png" className="w-150" alt="FlowBite Logo" />
+                            {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                        <div>
+                            <h2 className="mb-6 text-sm font-semibold uppercase text-white">Get To Know Us</h2>
+                            <ul className="text-gray-400 font-medium">
+                                <li className="mb-4">
+                                    <Link href="/aboutus" className="hover:underline">About Us</Link>
+                                </li>
+                                <li className="mb-4">
+                                    <Link href="/" className="hover:underline">Contact Us</Link>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
+                            <ul className="text-gray-400 font-medium">
+                                <li className="mb-4">
+                                    <Link href="https://github.com/themesberg/flowbite" className="hover:underline ">Github</Link>
+                                </li>
+                                <li>
+                                    <Link href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</Link>
+                                </li>
+                            </ul>
                         </div>
                         <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
                         <div className="sm:flex sm:items-center sm:justify-between">
