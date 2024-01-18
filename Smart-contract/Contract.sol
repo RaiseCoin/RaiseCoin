@@ -80,7 +80,7 @@ contract StartupInvestmentPlatform {
     require(!project.isActive, "Project is not active.");
 
     project.isActive = false;
-    // Logic to handle any investments made so far, like refunding investors
+    
 }
 function updateProjectDetails(uint256 _projectId, string memory _newTitle, string memory _newDescription) public {
     Project storage project = projects[_projectId];
@@ -89,7 +89,7 @@ function updateProjectDetails(uint256 _projectId, string memory _newTitle, strin
 
     project.title = _newTitle;
     project.description = _newDescription;
-    // Additional fields can be updated as needed
+
 }
 function withdrawFunds(uint256 _projectId) public {
     Project storage project = projects[_projectId];
@@ -139,7 +139,7 @@ function getActiveProjects() public view returns (uint256[] memory) {
         }
     }
 
-    // Trimming the array to the actual number of active projects
+    
     uint256[] memory trimmedActiveProjects = new uint256[](activeCount);
     for (uint256 j = 0; j < activeCount; j++) {
         trimmedActiveProjects[j] = activeProjects[j];
