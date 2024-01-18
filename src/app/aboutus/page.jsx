@@ -1,4 +1,3 @@
-import StockWidget from '@/components/Utils/StockWidget'
 import React from 'react'
 import Image from 'next/image';
 import { FaCoins } from "react-icons/fa";
