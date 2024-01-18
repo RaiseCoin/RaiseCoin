@@ -2,16 +2,16 @@ import React from "react";
 import Image from "next/image";
 
 import { FaMobileAlt, FaRegEnvelope, FaRegUser } from "react-icons/fa";
-// import { MdLockOutline } from "react-icons/md";
+import Link from "next/link";
 
 const signup = () => {
 	return (
-		<div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-			<div className="bg-grey-100 rounded-2xl  shadow-2xl flex w-2/3 max-w-4xl">
+		<div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center bg-gray-100 h-[100vh]">
+			<div className="bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl">
 				<div className="w-3/5 p-5">
 					{/*signup Section*/}
 					<div className="text-left font-bold">
-						<span className="text-green-600">RaiseCoin</span>
+						<Link href="/" className="text-green-600">RaiseCoin</Link>href="/" 
 					</div>
 					<div className="py-10">
 						<h2 className="text-3xl font-bold text-green-600 mb-2">Sign Up</h2>
@@ -48,12 +48,14 @@ const signup = () => {
 									className="bg-gray-200 outline-none text-sm flex-1"
 								/>
 							</div>
-							<button className="logo-button flex items-center mt-3 border-2 pr-3 rounded-xl bg-slate-800" onClick="#">
+							<button
+								className="logo-button flex items-center mt-3 border-2 pr-3 rounded-xl bg-slate-800"
+								onClick="#">
 								<Image
 									src={`/sign_in/metamask.png`}
-									height={30}
+									height={40}
 									width={60}
-									className="logo"
+									className="logo h-10 w-14"
 								/>
 								<span className="text">Connect MetaMask</span>
 							</button>

@@ -1,51 +1,57 @@
-import StockWidget from '@/components/Utils/StockWidget'
+import StockCard from '@/components/explore/StockCard';
+import StockWidget from '@/components/homepage/StockWidget'
 import React from 'react'
 
 const page = () => {
-    const data = [
+	const data = [
 		{
 			image: `/recomendation_images/c_one.webp`,
 			name: `WiGL`,
-			review: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+			subtitle: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+			raised: `$4.5M`,
+			investors: `504`,
+			mininvestment: `$1500`,
 		},
 		{
 			image: `/recomendation_images/c_two.webp`,
 			name: `NERD Focus`,
-			review: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+			subtitle: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+			raised: `$1.3M`,
+			investors: `200`,
+			mininvestment: `$500`,
 		},
 		{
 			image: `/recomendation_images/c_three.webp`,
 			name: `ACME AtronOmatic`,
-			review: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+			subtitle: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
+			raised: `$2.3M`,
+			investors: `267`,
+			mininvestment: `$1000`,
 		},
-		
+
 	];
-  return (
-    <div className="w-full bg-gray-50 min-h-screen">
-        <div className="w-3/4 m-auto py-14">
+	return (
+		<div className="w-full bg-gray-50 min-h-screen">
+			<div className="w-3/4 m-auto py-14">
 				<h1 className="text-2xl text-green-500 font-semibold text-left pb-10">
-					23 Current Funding Rounds
+					3 Current Funding Rounds
 				</h1>
 				<div className="grid grid-cols-3 gap-7">
 					{data.map((e, index) => (
-						<StockWidget key={index} e={e} />
-					))}
-                    {data.map((e, index) => (
-						<StockWidget key={index} e={e} />
-					))}
-                    {data.map((e, index) => (
-						<StockWidget key={index} e={e} />
-					))}
-                    {data.map((e, index) => (
-						<StockWidget key={index} e={e} />
-					))}
-                    {data.map((e, index) => (
-						<StockWidget key={index} e={e} />
+						<StockCard
+							key={index}
+							image={e.image}
+							name={e.name}
+							subtitle={e.subtitle}
+							amtRaised={e.raised}
+							noOfInvestors={e.investors}
+							minInvestment={e.mininvestment}
+						/>
 					))}
 				</div>
 			</div>
-    </div>
-  )
+		</div>
+	)
 }
 
 export default page
