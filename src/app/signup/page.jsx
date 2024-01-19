@@ -11,7 +11,10 @@ const signup = () => {
 				<div className="w-3/5 p-5">
 					{/*signup Section*/}
 					<div className="text-left font-bold">
-						<Link href="/" className="text-green-600">RaiseCoin</Link>href="/" 
+						<Link href="/" className="text-green-600">
+							RaiseCoin
+						</Link>
+						href="/"
 					</div>
 					<div className="py-10">
 						<h2 className="text-3xl font-bold text-green-600 mb-2">Sign Up</h2>
@@ -59,12 +62,18 @@ const signup = () => {
 								/>
 								<span className="text">Connect MetaMask</span>
 							</button>
+							<p className="mt-5 text-black text-[10px]">
+								By signing up you agree with our<br/>{" "}
+								<a href="#" className="font-semibold text-green-600">Terms and Conditions</a> &{" "}
+								<a href="#" className="font-semibold text-green-600">Privacy
+								Policy</a>
+							</p>
 							<a
 								href="#"
-								className="mt-5 border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
+								className="mt-1 border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
 								Sign Up
 							</a>
-							{/*signin button*/}
+							{/*signup button*/}
 						</div>
 					</div>
 				</div>
