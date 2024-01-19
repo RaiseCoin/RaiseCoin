@@ -1,3 +1,5 @@
+"use client";
+import MetamaskLogo from "@/components/metamask_logo/metamask_logo";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,12 +18,14 @@ const signin = () => {
 						{/* green bar */}
 						<div className="border-2 w-10 border-green-600 inline-block mb-4"></div>
 						<div>
-							<Image
+							{/* Metamask logo */}
+							{/* <Image
 								src={`/sign_in/metamask.png`}
 								height={300}
 								width={300}
 								className=" flex justify-center mx-auto h-52 w-72"
-							/>
+							/> */}
+							<MetamaskLogo />
 						</div>
 						<div className="flex flex-col items-center">
 							<a
