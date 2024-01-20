@@ -1,4 +1,3 @@
-import Dashboard from "@/components/profile/Dashboard";
 import Header from "@/components/profile/Header";
 import Sidebar from "@/components/profile/Sidebar";
 
@@ -7,9 +6,9 @@ const layout = ({ children }) => {
 		<div className="flex justify-start items-center mr-8">
 			<Sidebar />
 			{/* Profile section */}
-			<div className="h-[90vh] w-4/5 border-2 mt-5 rounded-t-2xl shadow-xl bg-blue-800">
+			<div className="h-[90vh] ml-4 p-5 w-4/5 border-2 mt-5 rounded-t-2xl shadow-xl bg-gray-200">
 				<Header />
-				{children}
+				<div className="px-7">{children}</div>
 			</div>
 		</div>
 	);
