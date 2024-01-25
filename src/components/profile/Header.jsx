@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { FaPen } from "react-icons/fa6";
 
 const Header = () => {
 	return (
@@ -21,8 +22,20 @@ const Header = () => {
 				{/* Name */}
 				<p className="mr-4 font-bold text-2xl text-white">User Full Name</p>
 				{/* Profile pic */}
-				<div className="aspect-square w-1/3 flex items-center overflow-clip rounded-full bg-black">
-					<Image width={100} height={100} src="/metamask.png" alt="" />
+				<div className="group relative aspect-square w-1/3 flex justify-center items-center overflow-clip rounded-full border">
+					<button
+						onClick={"#"}
+						className="opacity-100 flex items-center invisible group-hover:visible absolute z-10 py-1 px-2 rounded-xl bg-green-600">
+						<FaPen className="pr-1" />
+						edit
+					</button>
+					<Image
+						width={100}
+						height={100}
+						src="/metamask.png"
+						className="group-hover:opacity-40"
+						alt=""
+					/>
 				</div>
 			</div>
 		</div>
