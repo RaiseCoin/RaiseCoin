@@ -4,6 +4,7 @@ import CompWrapper from '../Utils/CompWrapper'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Navigation = () => {
   const path = usePathname();
@@ -55,15 +56,10 @@ const Navigation = () => {
               >
                 For Founders
               </Link>
-              <Link
-                href="/signin"
-                className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
-              >
-                Log In
-              </Link>
+              <ConnectButton chainStatus="none" label="Log in" showBalance={false}/>
               <Link
                 href="/signup"
-                className="py-2 px-4 text-white bg-green-500 rounded hover:bg-green-600 transition duration-300"
+                className="py-2 px-4 text-white bg-green-600 rounded transition duration-300"
               >
                 Sign Up
               </Link>

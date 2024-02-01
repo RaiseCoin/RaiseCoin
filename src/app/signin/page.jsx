@@ -3,6 +3,9 @@ import MetamaskLogo from "@/components/metamask_logo/metamask_logo";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
+
 
 const signin = () => {
 	return (
@@ -13,10 +16,12 @@ const signin = () => {
 					<div className="text-left font-bold">
 						<Link href="/" className="text-green-600">RaiseCoin</Link>
 					</div>
+					
 					<div className="py-10">
 						<h2 className="text-3xl font-bold text-green-600 mb-2">Sign In</h2>
 						{/* green bar */}
 						<div className="border-2 w-10 border-green-600 inline-block mb-4"></div>
+						
 						<div>
 							{/* Metamask logo */}
 							<MetamaskLogo />

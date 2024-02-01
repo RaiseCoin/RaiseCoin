@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { FaMobileAlt, FaRegEnvelope, FaRegUser } from "react-icons/fa";
 import Link from "next/link";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const signup = () => {
 	return (
@@ -51,7 +52,7 @@ const signup = () => {
 									className="bg-gray-200 outline-none text-sm flex-1"
 								/>
 							</div>
-							<button
+							{/* <button
 								className="logo-button flex items-center mt-3 border-2 pr-3 rounded-xl bg-slate-800"
 								onClick="#">
 								<Image
@@ -61,7 +62,8 @@ const signup = () => {
 									className="logo h-10 w-14"
 								/>
 								<span className="text">Connect MetaMask</span>
-							</button>
+							</button> */}
+							<ConnectButton chainStatus="none" label="Connect wallet" showBalance={false}/>
 							<p className="mt-5 text-black text-[10px]">
 								By signing up you agree with our<br/>{" "}
 								<a href="#" className="font-semibold text-green-600">Terms and Conditions</a> &{" "}
