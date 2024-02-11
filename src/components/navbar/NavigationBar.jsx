@@ -9,8 +9,8 @@ const Navigation = () => {
   const path = usePathname();
   return (<>
     {path=="/signin"|| path=="/signup"?<></>:<nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
-      <CompWrapper>
-          <div className="flex justify-between items-center py-3">
+      {/* <CompWrapper> */}
+          <div className="flex justify-between items-center py-3 w-[87%] mx-auto">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
                 <Image src="/logoBlack.png" width={400} height={100} alt="Logo" className="w-40" />
@@ -20,7 +20,7 @@ const Navigation = () => {
                   type="search"
                   name="search"
                   placeholder="Explore Investments"
-                  className="px-4 py-2 w-80 outline-none "
+                  className="px-4 py-2 w-auto md:w-80 outline-none "
                 />
                 <button className="flex items-center justify-center px-4 border-l">
                   <svg
@@ -85,7 +85,7 @@ const Navigation = () => {
               </button>
             </div>
           </div>
-      </CompWrapper>
+      {/* </CompWrapper> */}
     </nav>}
   </>
 
