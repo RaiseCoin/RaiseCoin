@@ -52,11 +52,12 @@ const wagmiConfig = createConfig({
 });
 
 const Providers = ({ children }) => {
+
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
       theme={lightTheme({
-        accentColor: '#43A047',
+        accentColor: '#16a34a',
         accentColorForeground: 'white',
         borderRadius: 'small',
         fontStack: 'system',

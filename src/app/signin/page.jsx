@@ -5,9 +5,20 @@ import Link from "next/link";
 import React from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
-
+import { useEffect } from 'react';
+import { useAccount } from 'wagmi';
+import { useRouter } from 'next/navigation';
 
 const signin = () => {
+	const { isConnected } = useAccount();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isConnected) {
+      // Redirect to the home page after a successful connection
+      router.push('/');
+    }
+  }, [isConnected, router]);
 	return (
 		<div className="flex flex-col items-center justify-center w-full flex-1 px-20 h-[100vh] bg-gray-100 text-center">
 			<div className="bg-white rounded-2xl  shadow-2xl flex w-2/3 max-w-4xl">
@@ -27,12 +38,8 @@ const signin = () => {
 							<MetamaskLogo />
 						</div>
 						<div className="flex flex-col items-center">
-							<a
-								href="#"
-								className="mt-5 border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
-								Continue with MetaMask
-							</a>
-							{/*signin button*/}
+						<ConnectButton chainStatus="none" label="Connect Wallet" showBalance={false}/>
+							
 						</div>
 					</div>
 				</div>
