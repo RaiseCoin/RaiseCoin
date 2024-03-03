@@ -7,29 +7,29 @@ const page = () => {
     return (
         <div className="w-full bg-gray-50 min-h-screen">
             <CompWrapper>
-                <div className="w-4/5 flex flex-col items-start mx-auto py-28 text-gray-900 ">
+                <div className="w-4/5 flex flex-col items-start mx-auto py-10 md:py-28 text-gray-900 ">
                     <p className='text-green-500 text-lg tracking-wide font-medium'>GET A PIECE OF WIGL</p>
-                    <h2 className='text-gray-900  text-4xl font-bold mb-10'>
+                    <h2 className='text-gray-900  text-4xl font-bold mt-4 mb-10'>
                         WiGL’s Back - Touchless Wireless Power
                     </h2>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5 pb-10'>
+                    <div className='md:grid grid-cols-1 md:grid-cols-1 gap-x-5 gap-y-5 pb-10'>
                         <div className='mt-auto'>
                             <span className='text-green-500 text-lg font-medium'>
                                 Summary
                             </span>
-                            <p className='text-justify'>By partnering with pioneers in the wireless power and innovative energy  industries, WiGL has emerged as the umbrella technology creating the future for smart, touchless, wireless power networks. WiGL, Wireless-electric Grid Local Air Networks (pronounced “wiggle”), is transitioning  new technologies developed for the Department of Defense to commercial markets. WiGL is on a mission to use over-the-air  wireless power and renewable energy solutions  to recharge the Internet of Things (“IoT”). </p>
+                            <p className='text-justify py-8'>By partnering with pioneers in the wireless power and innovative energy  industries, WiGL has emerged as the umbrella technology creating the future for smart, touchless, wireless power networks. WiGL, Wireless-electric Grid Local Air Networks (pronounced “wiggle”), is transitioning  new technologies developed for the Department of Defense to commercial markets. WiGL is on a mission to use over-the-air  wireless power and renewable energy solutions  to recharge the Internet of Things (“IoT”). </p>
                         </div>
                         <Image
                             src={"/recomendation_images/c_one.webp"}
                             height={300}
                             width={400}
                             alt=""
-                            className="w-full md:w-[90%] md:ml-auto my-auto aspect-video rounded-xl object-cover"
+                            className="w-full hidden md:flex md:w-[90%] md:ml-auto my-auto aspect-video rounded-xl object-cover"
                         />
 
                         <Link href={"#"} className="bg-green-500 text-white font-medium px-14 py-4 rounded hover:bg-green-600 duration-300 self-center uppercase w-fit col-span-2">Invest Now</Link>
                         <div className='w-full bg-white rounded-md shadow cursor-pointer flex gap-4 justify-between items-center  px-6 py-4'>
-                            <span className='text-gray-900 uppercase font-light'>Previous Funding</span>
+                            <span className='text-gray-900 uppercase font-light my-10'>Previous Funding</span>
                             <span className='text-green-500 text-lg'>$4,993,856</span>
                         </div>
                         <div className='w-full bg-white rounded-md shadow cursor-pointer flex gap-4 justify-between items-center  px-6 py-4'>
@@ -50,7 +50,7 @@ const page = () => {
                         </div>
                     </div>
                     <h3 className='text-center text-3xl text-green-500 w-full mt-10 pb-5'>Company Overview</h3>
-                    <p className='w-full text-justify text-gray-500 px-10'>
+                    <p className='w-full text-justify text-gray-500 md:px-10'>
                         PowerFlow Innovations is a Silicon Valley-based startup specializing in the development and implementation of WiGL technology—Wireless-electric Grid Local Air Networks. The name "WiGL," pronounced "wiggle," perfectly encapsulates the dynamic and flexible nature of the company's innovative approach to wireless power.
 
                         Key Features and Technologies:<br />

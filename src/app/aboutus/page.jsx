@@ -36,7 +36,7 @@ const page = () => {
           <dl class="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
             <div class="relative pl-9">
               <dt class="inline font-semibold text-gray-900">
-                <FaCoins className="absolute left-1 top-1 h-5 w-5 text-indigo-600" />Currency Independant: 
+                <FaCoins className="absolute left-1 top-1 h-5 w-5 text-indigo-600" />Currency Independent: 
               </dt>
               <dd class="inline"> RaiseCoin works on Ether(ETH), which is a global cryptocurrency. We've solved the currency-conversion problem in style!
               </dd>
@@ -65,7 +65,7 @@ const page = () => {
           </a> */}
         </div>
       </div>
-      <Image src={"/aboutus3.jpg"} alt='banner' width={500} height={500} className='h-full w-auto' />
+      <Image src={"/aboutus3.jpg"} alt='banner' width={500} height={500} className='h-full md:block hidden w-auto' />
     </div>
   </div>
 </section>

@@ -14,12 +14,12 @@ const Footer = () => {
                     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                         <div className="md:flex md:justify-between">
                             <div className="mb-6 md:mb-0">
-                                <Link href="https://flowbite.com/" className="flex items-center">
+                                <Link href="/" className="flex items-center">
                                     <Image width={300} height={200} src="/logo.png" className="w-150" alt="FlowBite Logo" />
                                     {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
                                 </Link>
                             </div>
-                            <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                            <div className="grid  md:grid-cols-3 gap-8 sm:gap-6 grid-cols-2">
                                 <div>
                                     <h2 className="mb-6 text-sm font-semibold uppercase text-white">Get To Know Us</h2>
                                     <ul className="text-gray-400 font-medium">
@@ -59,7 +59,7 @@ const Footer = () => {
                         <div className="sm:flex sm:items-center sm:justify-between">
                             <span className="text-sm sm:text-center text-gray-400">© 2024 <Link href="/" className="hover:underline">Raisecoin</Link>. All Rights Reserved.
                             </span>
-                            <div className="flex mt-4 sm:justify-center sm:mt-0">
+                            {/* <div className="flex mt-4 sm:justify-center sm:mt-0">
                                 <Link href="#" className="text-gray-500 hover:text-white">
                                     <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
                                         <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd" />
@@ -90,7 +90,7 @@ const Footer = () => {
                                     </svg>
                                     <span className="sr-only">Dribbble account</span>
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </footer>
