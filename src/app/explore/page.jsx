@@ -36,7 +36,7 @@ const page = () => {
 				<h1 className="text-2xl text-green-500 font-semibold text-left pb-10">
 					3 Current Funding Rounds
 				</h1>
-				<div className="grid grid-cols-3 gap-7">
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-7">
 					{data.map((e, index) => (
 						<StockCard
 							key={index}

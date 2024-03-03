@@ -1,5 +1,5 @@
 import React from "react";
-import "swiper/css";
+
 import StockWidget from "./StockWidget";
 
 const Recommendations = ({ title }) => {
@@ -27,7 +27,7 @@ const Recommendations = ({ title }) => {
 				<h1 className="text-3xl text-gray-700 font-semibold text-left pb-10">
 					{title}
 				</h1>
-				<div className="grid grid-cols-3 gap-7">
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-7">
 					{data.map((e, index) => (
 						<StockWidget key={index} e={e} />
 					))}

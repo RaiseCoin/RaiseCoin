@@ -1,16 +1,25 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import CompWrapper from '../Utils/CompWrapper'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
 
 const Navigation = () => {
   const path = usePathname();
+  const { isConnected } = useAccount();
+  const [showSignUp, setShowSignUp] = useState(false);
+
+  useEffect(() => {
+    // This ensures the action is taken client-side, after hydration
+    setShowSignUp(!isConnected);
+  }, [isConnected]);
   return (<>
     {path=="/signin"|| path=="/signup"?<></>:<nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
-      <CompWrapper>
-          <div className="flex justify-between items-center py-3">
+      {/* <CompWrapper> */}
+          <div className="flex justify-between items-center py-3 w-[87%] mx-auto">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
                 <Image src="/logoBlack.png" width={400} height={100} alt="Logo" className="w-40" />
@@ -20,7 +29,7 @@ const Navigation = () => {
                   type="search"
                   name="search"
                   placeholder="Explore Investments"
-                  className="px-4 py-2 w-80 outline-none "
+                  className="px-4 py-2 w-auto md:w-80 outline-none "
                 />
                 <button className="flex items-center justify-center px-4 border-l">
                   <svg
@@ -55,18 +64,15 @@ const Navigation = () => {
               >
                 For Founders
               </Link>
-              <Link
-                href="/signin"
-                className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
-              >
-                Log In
-              </Link>
+              <ConnectButton chainStatus="none" label="Log in" showBalance={false}/>
+              {showSignUp && (
               <Link
                 href="/signup"
-                className="py-2 px-4 text-white bg-green-500 rounded hover:bg-green-600 transition duration-300"
+                className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
               >
                 Sign Up
               </Link>
+              )}
             </div>
             <div className="md:hidden flex items-center">
               <button className="outline-none mobile-menu-button">
@@ -85,7 +91,7 @@ const Navigation = () => {
               </button>
             </div>
           </div>
-      </CompWrapper>
+      {/* </CompWrapper> */}
     </nav>}
   </>
 
