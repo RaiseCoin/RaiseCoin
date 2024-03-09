@@ -9,7 +9,7 @@ const Footer = () => {
     const path = usePathname();
     return (
         <>
-            {path == "/signin" || path == "/signup" ? <></> :
+            {path == "/signin" || path == "/signup" ||path == "/founders" ?  <></> :
                 <footer className="bg-gray-900 w-full">
                     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                         <div className="md:flex md:justify-between">

@@ -17,7 +17,7 @@ const Navigation = () => {
     setShowSignUp(!isConnected);
   }, [isConnected]);
   return (<>
-    {path=="/signin"|| path=="/signup"?<></>:<nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
+    {path=="/signin"|| path=="/signup" ||path=="/founders"?<></>:<nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
       {/* <CompWrapper> */}
           <div className="flex justify-between items-center py-3 w-[87%] mx-auto">
             <div className="flex items-center space-x-4">
@@ -59,7 +59,7 @@ const Navigation = () => {
                 Learn
               </Link> */}
               <Link
-                href="#"
+                href="/founders"
                 className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
               >
                 For Founders

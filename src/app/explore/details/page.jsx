@@ -1,9 +1,15 @@
+'use client'
 import CompWrapper from '@/components/Utils/CompWrapper'
+import PopUp from '@/components/Utils/PopUp'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 
 const page = () => {
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => {
+        setOpen(!open)
+    }
     return (
         <div className="w-full bg-gray-50 min-h-screen">
             <CompWrapper>
@@ -27,7 +33,7 @@ const page = () => {
                             className="w-full hidden md:flex md:w-[90%] md:ml-auto my-auto aspect-video rounded-xl object-cover"
                         />
 
-                        <Link href={"#"} className="bg-green-500 text-white font-medium px-14 py-4 rounded hover:bg-green-600 duration-300 self-center uppercase w-fit col-span-2">Invest Now</Link>
+                        <button onClick={handleOpen} className="bg-green-500 text-white font-medium px-14 py-4 rounded hover:bg-green-600 duration-300 self-center uppercase w-fit col-span-2">Invest Now</button>
                         <div className='w-full bg-white rounded-md shadow cursor-pointer flex gap-4 justify-between items-center  px-6 py-4'>
                             <span className='text-gray-900 uppercase font-light my-10'>Previous Funding</span>
                             <span className='text-green-500 text-lg'>$4,993,856</span>
@@ -77,7 +83,7 @@ const page = () => {
                         PowerFlow Innovations envisions WiGL as the go-to technology for wireless power solutions globally. The company strives to create a world where wireless power networks are seamlessly integrated into everyday life, making charging as simple and intuitive as the natural "wiggle" of energy through the air.
                     </p>
                 </div>
-
+                {open && <PopUp handleOpen={handleOpen}/>}
             </CompWrapper>
         </div>
     )
