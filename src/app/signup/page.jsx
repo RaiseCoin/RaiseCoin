@@ -79,8 +79,8 @@ const signup = () => {
 						</div>
 					</div>
 				</div>
-				<div className="w-2/5 bg-green-600 rounded-tr-2xl rounded-br-2xl py-36 px-12">
-					{/*Signup section*/}
+				<div className="w-2/5 bg-green-600 rounded-t-2xl rounded-b-2xl py-36 px-12">
+					{/*Signin section*/}
 					<h2 className="text-3xl font-bold mb-2">Hey, There!</h2>
 					<div className="border-2 w-10 border-white inline-block mb-10"></div>
 					{/*white bar*/}

@@ -43,7 +43,7 @@ const signin = () => {
 						</div>
 					</div>
 				</div >
-				<div className="md:w-2/5 bg-green-600 md:rounded-tr-2xl rounded-bl-2xl rounded-br-2xl pt-8 pb-60 md:py-36 px-12">
+				<div className="md:w-2/5 bg-green-600 md:rounded-t-2xl rounded-b-2xl pt-8 pb-60 md:py-36 px-12">
 					{/*Signup section*/}
 					<div className=" w-full h-full ">
 					<h2 className="md:text-3xl text-4xl font-bold pt-8 mb-2 ">Hey, There!</h2>
