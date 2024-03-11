@@ -1,24 +1,24 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import CompWrapper from '../Utils/CompWrapper'
-import Link from 'next/link'
-import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation'; // Import usePathname here
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 
 const Navigation = () => {
   const path = usePathname();
   const { isConnected } = useAccount();
-  const [showSignUp, setShowSignUp] = useState(false);
 
-  useEffect(() => {
-    // This ensures the action is taken client-side, after hydration
-    setShowSignUp(!isConnected);
-  }, [isConnected]);
-  return (<>
-    {path=="/signin"|| path=="/signup" ||path=="/founders"?<></>:<nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
-      {/* <CompWrapper> */}
+  const toggleMenu = () => {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  };
+
+  return (
+    <>
+      {path === "/signin" || path === "/signup" || path === "/founders/signin" || path === "/founders" || path === "/founders/signup" ? <></> : (
+        <nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
           <div className="flex justify-between items-center py-3 w-[87%] mx-auto">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
@@ -52,33 +52,33 @@ const Navigation = () => {
               >
                 Start Investing
               </Link>
-              {/* <Link
-                href="#"
-                className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
-              >
-                Learn
-              </Link> */}
               <Link
                 href="/founders"
                 className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
               >
                 For Founders
               </Link>
-              <ConnectButton chainStatus="none" label="Log in" showBalance={false}/>
-              {showSignUp && (
+              {/* <ConnectButton chainStatus="none" label="Log in" showBalance={false}/> */}
+              <Link
+                href="/signin"
+                className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
+              >
+                Log In
+              </Link>
               <Link
                 href="/signup"
                 className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
               >
                 Sign Up
               </Link>
-              )}
             </div>
             <div className="md:hidden flex items-center">
-              <button className="outline-none mobile-menu-button">
+              <button
+                onClick={toggleMenu}
+                className="outline-none mobile-menu-button"
+              >
                 <svg
-                  className=" w-6 h-6 text-gray-500 hover:text-green-500 "
-                  x-show="!showMenu"
+                  className="w-6 h-6 text-gray-500 hover:text-green-500 "
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -91,11 +91,30 @@ const Navigation = () => {
               </button>
             </div>
           </div>
-      {/* </CompWrapper> */}
-    </nav>}
-  </>
+          <div id="mobile-menu" className="hidden md:hidden bg-gray-100">
+            <ul className="flex flex-col items-center space-y-4">
+              <li>
+                <Link
+                  href="/explore"
+                  className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
+                >
+                  Start Investing
+                </Link>
+              </li>
+              <li className='pb-3'>
+                <Link
+                  href="/founders"
+                  className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
+                >
+                  For Founders
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      )}
+    </>
+  );
+};
 
-  )
-}
-
-export default Navigation
+export default Navigation;
