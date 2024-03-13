@@ -1,28 +1,63 @@
 "use client";
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation'; // Import usePathname here
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount } from 'wagmi';
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation"; // Import usePathname here
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount ,useDisconnect} from "wagmi";
+import { useRouter } from "next/navigation";
+
 
 const Navigation = () => {
   const path = usePathname();
-  const { isConnected } = useAccount();
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect()
+  const router = useRouter(); // Place this inside your component function
 
   const toggleMenu = () => {
-    const menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('hidden');
+    const menu = document.getElementById("mobile-menu");
+    menu.classList.toggle("hidden");
+  };
+
+  const formatAddress = (address) =>
+  address ? `${address.slice(0, 4)}...${address.slice(-3)}` : '';
+
+  // Toggle dropdown visibility
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+  const logout = () => {
+    disconnect();
+    setDropdownOpen(false); // Close dropdown on logout
+    router.push("/")
+  };
+  // Function to handle profile navigation
+  const handleProfileClick = () => {
+    setDropdownOpen(false); // Close the dropdown
+    router.push("/profile/dashboard"); // Navigate to profile page
   };
 
   return (
     <>
-      {path === "/signin" || path === "/signup" || path === "/founders/signin" || path === "/founders" || path === "/founders/signup" ? <></> : (
+      {path === "/signin" ||
+      path === "/signup" ||
+      path === "/founders/signin" ||
+      path === "/founders" ||
+      path === "/founders/signup" ? (
+        <></>
+      ) : (
         <nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
           <div className="flex justify-between items-center py-3 w-[87%] mx-auto">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
-                <Image src="/logoBlack.png" width={400} height={100} alt="Logo" className="w-40" />
+                <Image
+                  src="/logoBlack.png"
+                  width={400}
+                  height={100}
+                  alt="Logo"
+                  className="w-40"
+                />
               </Link>
               <div className="flex items-center border border-gray-170 rounded-xl overflow-hidden bg-white">
                 <input
@@ -59,18 +94,47 @@ const Navigation = () => {
                 For Founders
               </Link>
               {/* <ConnectButton chainStatus="none" label="Log in" showBalance={false}/> */}
-              <Link
-                href="/signin"
-                className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
-              >
-                Log In
-              </Link>
-              <Link
-                href="/signup"
-                className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
-              >
-                Sign Up
-              </Link>
+              {!isConnected ? (
+                <>
+                  <Link
+                    href="/signin"
+                    className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              ) : (
+                <div className="relative inline-block">
+                  <button
+                    onClick={toggleDropdown}
+                    className="py-2 px-4 bg-green-600 text-white rounded transition duration-300 hover:scale-105 flex items-center w-full"
+                  >
+                    {formatAddress(address)} <span className="ml-2">▼</span>
+                  </button>
+                  {dropdownOpen && (
+                    <div className="absolute right-0 mt-2 py-2 bg-white rounded shadow-xl z-10 w-full">
+                      <a
+                        onClick={handleProfileClick}
+                        className="cursor-pointer block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                      >
+                        Profile
+                      </a>
+                      <a
+                        onClick={logout}
+                        className="cursor-pointer block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                      >
+                        Log Out
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             <div className="md:hidden flex items-center">
               <button
@@ -101,7 +165,7 @@ const Navigation = () => {
                   Start Investing
                 </Link>
               </li>
-              <li className='pb-3'>
+              <li className="pb-3">
                 <Link
                   href="/founders"
                   className="text-gray-700 font-medium hover:text-green-600 transition duration-300"
