@@ -13,6 +13,7 @@ const page = () => {
             .then(response => response.json())
             .then(data => {
                 const transformedData = data.data.map(item => ({
+					id: item.id,
                     image: `/recomendation_images/c_one.webp`, // Static image, consider dynamic handling if needed
                     name: item.attributes.startupName,
                     subtitle: item.attributes.subtitle,
@@ -62,6 +63,7 @@ const page = () => {
 					{data.map((e, index) => (
 						<StockCard
 							key={index}
+							id={e.id}
 							image={e.image}
 							name={e.name}
 							subtitle={e.subtitle}

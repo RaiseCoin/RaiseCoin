@@ -2,7 +2,7 @@ import React from 'react'
 import Image from "next/image";
 import Link from 'next/link';
 
-const StockCard = ({image,name,subtitle,amtRaised,noOfInvestors,minInvestment,link,}) => {
+const StockCard = ({id,image,name,subtitle,amtRaised,noOfInvestors,minInvestment,link,}) => {
     return (
         <div className="bg-gray-100 shadow-md w-full text-black rounded-xl">
             <div className="w-full rounded-t-xl flex justify-center items-center relative">
@@ -35,7 +35,7 @@ const StockCard = ({image,name,subtitle,amtRaised,noOfInvestors,minInvestment,li
                         <p className='text-sm text-gray-500'>Min. Investment</p>
                     </div>
                 </div>
-                <Link href={'/explore/details'} className="bg-[#023047] self-end text-white text-sm px-6 py-1.5 rounded-lg">
+                <Link href={`/explore/${id}`} className="bg-[#023047] self-end text-white text-sm px-6 py-1.5 rounded-lg">
                     More Details
                 </Link>
             </div>
