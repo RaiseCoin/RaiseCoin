@@ -14,10 +14,10 @@ const Sidebar = () => {
 					<ul className="space-y-2 font-medium">
 						<li>
 							<a
-								href="/profile/dashboard"
+								href="/profile/myprofile"
 								className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
 								<FaChartPie className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-								<span className="ms-3">Dashboard</span>
+								<span className="ms-3">My Profile</span>
 							</a>
 						</li>
 						<li>
