@@ -1,7 +1,7 @@
 import React from "react";
-import CustomInput from "./CustomInput";
+import CustomInput from "../profile_page_comp/CustomInput";
 
-const Dashboard = () => {
+const MyProfile = () => {
 	return (
 		<div className="flex flex-col">
 			<p className="font-bold text-2xl text-green-600 mb-5">Profile Overview</p>
@@ -39,4 +39,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default MyProfile;
