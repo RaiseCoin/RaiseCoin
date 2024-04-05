@@ -15,12 +15,12 @@ const Header = () => {
 
 			<div className="flex flex-col items-start my-auto ml-20 relative z-10">
 				<p className="text-s font-semibold">Total Investments</p>
-				<p className="text-4xl font-bold"><FaEthereum className="pr-3" />1,23,456.67</p>
+				<p className="text-4xl font-bold flex items-center mt-4"><FaEthereum className="pr-3" />1,233.67</p>
 			</div>
 
 			<div className="flex items-center my-auto mx-4 relative z-10">
 				{/* Name */}
-				<p className="mr-4 font-bold text-2xl text-white">User Full Name</p>
+				<p className="mr-4 font-bold text-2xl text-white">Jitesh Puri</p>
 				{/* Profile pic */}
 				<div className="group relative aspect-square w-1/3 flex justify-center items-center overflow-clip rounded-full border">
 					<button

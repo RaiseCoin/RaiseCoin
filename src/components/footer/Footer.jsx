@@ -24,7 +24,7 @@ const Footer = () => {
                                     <h2 className="mb-6 text-sm font-semibold uppercase text-white">Get To Know Us</h2>
                                     <ul className="text-gray-400 font-medium">
                                         <li className="mb-4">
-                                            <Link href="/aboutUs" className="hover:underline">About Us</Link>
+                                            <Link href="/about" className="hover:underline">About Us</Link>
                                         </li>
                                         <li className="mb-4">
                                             <Link href="/contactUs" className="hover:underline">Contact Us</Link>
