@@ -94,3 +94,13 @@
 // };
 
 // export default Page;
+
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Founders Portfolio</h1>
+      <p>Coming soon...</p>
+    </div>
+  );
+}
