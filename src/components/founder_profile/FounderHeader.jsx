@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { FaPen, FaEthereum } from "react-icons/fa6";
 
-const Header = () => {
+const FounderHeader = () => {
 	return (
 		<div className="h-[18vh] shadow-2xl w-full flex justify-between rounded-2xl mb-10 relative overflow-hidden">
 			{/* Banner Image */}
@@ -14,13 +14,13 @@ const Header = () => {
 			<div className="absolute inset-0 bg-green-600 opacity-25"></div>
 
 			<div className="flex flex-col items-start my-auto ml-20 relative z-10">
-				<p className="text-s font-semibold">Total Investments</p>
-				<p className="text-4xl font-bold flex items-center mt-4"><FaEthereum className="pr-3" />1,233.67</p>
+				<p className="text-s font-semibold pl-9">Raised</p>
+				<p className="flex text-4xl font-bold"><FaEthereum className="pr-3" />13,456.67</p>
 			</div>
 
 			<div className="flex items-center my-auto mx-4 relative z-10">
 				{/* Name */}
-				<p className="mr-4 font-bold text-2xl text-white">Jitesh Puri</p>
+				<p className="mr-4 font-bold text-2xl text-white">StartUp Name</p>
 				{/* Profile pic */}
 				<div className="group relative aspect-square w-1/3 flex justify-center items-center overflow-clip rounded-full border">
 					<button
@@ -42,4 +42,4 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default FounderHeader;
