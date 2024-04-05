@@ -1,31 +1,31 @@
-"use client"
-import StockCard from '@/components/explore/StockCard';
-import StockWidget from '@/components/homepage/StockWidget'
-import React,{useEffect,useState} from 'react'
+"use client";
+import StockCard from "@/components/explore/StockCard";
+import StockWidget from "@/components/homepage/StockWidget";
+import React, { useEffect, useState } from "react";
 
 const page = () => {
-
 	const [data, setData] = useState([]);
 	const [totalEntries, setTotalEntries] = useState(0);
 
-    useEffect(() => {
-        fetch('https://backendpostgres-76ng.onrender.com/api/startups')
-            .then(response => response.json())
-            .then(data => {
-                const transformedData = data.data.map(item => ({
+	useEffect(() => {
+		fetch("https://backendpostgres-76ng.onrender.com/api/startups?populate=*")
+			.then((response) => response.json())
+			.then((data) => {
+				const transformedData = data.data.map((item) => ({
 					id: item.id,
-                    image: `/recomendation_images/c_one.webp`, // Static image, consider dynamic handling if needed
-                    name: item.attributes.startupName,
-                    subtitle: item.attributes.subtitle,
-                    raised: `$${item.attributes.currentFunding}M`, // Adjust formatting as needed
-                    investors: item.attributes.noInvestors,
-                    mininvestment: `$${item.attributes.minInvestment}`,
-                }));
-                setData(transformedData);
+					// image: `/recomendation_images/c_one.webp`, // Static image, consider dynamic handling if needed
+					image: item.attributes.displayImg.data.attributes.url, // Static image, consider dynamic handling if needed
+					name: item.attributes.startupName,
+					subtitle: item.attributes.subtitle,
+					raised: `${item.attributes.currentFunding}`, // Adjust formatting as needed
+					investors: item.attributes.noInvestors,
+					mininvestment: `${item.attributes.minInvestment}`,
+				}));
+				setData(transformedData);
 				setTotalEntries(data.meta.pagination.total);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []); 
+			})
+			.catch((error) => console.error("Error fetching data:", error));
+	}, []);
 	// const data = [
 	// 	{
 	// 		image: `/recomendation_images/c_one.webp`,
@@ -75,7 +75,7 @@ const page = () => {
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default page
+export default page;
