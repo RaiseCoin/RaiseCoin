@@ -11,25 +11,25 @@ const MyProfile = () => {
 					<CustomInput
 						label={"First name"}
 						id={"first_name"}
-						placeholder={"John"}
+						placeholder={"Jitesh"}
 						type={"text"}
 					/>
 					<CustomInput
 						label={"Last name"}
 						id={"last_name"}
-						placeholder={"Doe"}
+						placeholder={"Puri"}
 						type={"text"}
 					/>
 					<CustomInput
 						label={"Email address"}
 						id={"email"}
-						placeholder={"john.doe@example.com"}
+						placeholder={"jitesh.puri@gmail.com"}
 						type={"email"}
 					/>
 					<CustomInput
 						label={"Phone number"}
 						id={"phone"}
-						placeholder={"123-45-6789"}
+						placeholder={"+91-8788818596"}
 						pattern={"[0-9]{3}-[0-9]{2}-[0-9]{4}"}
 						type={"tel"}
 					/>
