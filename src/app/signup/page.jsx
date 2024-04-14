@@ -1,11 +1,60 @@
-import React from "react";
+"use client"
+import React ,{useState} from "react";
 import Image from "next/image";
 
 import { FaMobileAlt, FaRegEnvelope, FaRegUser } from "react-icons/fa";
 import Link from "next/link";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from "wagmi";
+import toast, { Toaster } from 'react-hot-toast';
 
 const signup = () => {
+	const [name, setName] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [email, setEmail] = useState("");
+    
+	const { address } = useAccount();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Adjusted to match the expected structure
+        const payload = {
+            data: {
+                name,
+                number: mobile, // Assuming 'mobile' should be sent as 'number'
+                address:address,
+                email,
+            }
+        };
+
+        // Replace `base_url` with your actual base URL
+        const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                console.log("Signup successful");
+				toast.success("Signup successful");
+                // Reset form or redirect user as needed
+             } 
+			 else {
+                console.log("Signup failed",response);
+				toast.error("Signup failed");
+            }
+        } catch (error) {
+            console.error("Error during signup:", error);
+			toast.error(`Error during signup: ${error.message}`);
+        }
+    };
+
 	return (
 		<div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center bg-gray-100 h-[100vh]">
 			<div className="bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl">
@@ -20,7 +69,9 @@ const signup = () => {
 					<div className="py-10">
 						<h2 className="text-3xl font-bold text-green-600 mb-2">Sign Up</h2>
 						{/*green bar*/}
+						
 						<div className="border-2 w-10 border-green-600 inline-block mb-5"></div>
+						<form onSubmit={handleSubmit}>
 						<div className="flex flex-col items-center">
 							<div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
 								{/*name section*/}
@@ -30,6 +81,7 @@ const signup = () => {
 									name="name"
 									placeholder="Full Name"
 									className="bg-gray-200 outline-none text-sm flex-1"
+									value={name} onChange={(e) => setName(e.target.value)}
 								/>
 							</div>
 							<div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
@@ -40,6 +92,8 @@ const signup = () => {
 									name="mobile"
 									placeholder="Mobile"
 									className="bg-gray-200 outline-none text-sm flex-1"
+									value={mobile} 
+									onChange={(e) => setMobile(e.target.value)}
 								/>
 							</div>
 							<div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
@@ -50,19 +104,11 @@ const signup = () => {
 									name="email"
 									placeholder="Email"
 									className="bg-gray-200 outline-none text-sm flex-1"
+									value={email} 
+									onChange={(e) => setEmail(e.target.value)}
 								/>
 							</div>
-							{/* <button
-								className="logo-button flex items-center mt-3 border-2 pr-3 rounded-xl bg-slate-800"
-								onClick="#">
-								<Image
-									src={`/sign_in/metamask.png`}
-									height={40}
-									width={60}
-									className="logo h-10 w-14"
-								/>
-								<span className="text">Connect MetaMask</span>
-							</button> */}
+						
 							<ConnectButton chainStatus="none" label="Connect wallet" showBalance={false}/>
 							<p className="mt-5 text-black text-[10px]">
 								By signing up you agree with our<br/>{" "}
@@ -70,13 +116,14 @@ const signup = () => {
 								<a href="#" className="font-semibold text-green-600">Privacy
 								Policy</a>
 							</p>
-							<a
-								href="#"
-								className="mt-1 border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
-								Sign Up
-							</a>
+							<button
+                            type="submit"
+                            className="mt-1 border-2 text-green-600 border-green-600 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-600 hover:text-white">
+                            Sign Up
+                        </button>
 							{/*signup button*/}
 						</div>
+						</form>
 					</div>
 				</div>
 				<div className="w-2/5 bg-green-600 rounded-t-2xl rounded-b-2xl py-36 px-12">
