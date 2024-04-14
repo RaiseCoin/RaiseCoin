@@ -9,7 +9,7 @@ const page = () => {
 	const [totalEntries, setTotalEntries] = useState(0);
 
     useEffect(() => {
-        fetch('https://backendpostgres-76ng.onrender.com/api/startups')
+        fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups`)
             .then(response => response.json())
             .then(data => {
                 const transformedData = data.data.map(item => ({
