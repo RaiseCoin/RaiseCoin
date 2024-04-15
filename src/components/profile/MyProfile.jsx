@@ -1,7 +1,7 @@
 import React from "react";
-import CustomInput from "./CustomInput";
+import CustomInput from "../profile_page_comp/CustomInput";
 
-const Dashboard = () => {
+const MyProfile = () => {
 	return (
 		<div className="flex flex-col">
 			<p className="font-bold text-2xl text-green-600 mb-5">Profile Overview</p>
@@ -11,25 +11,25 @@ const Dashboard = () => {
 					<CustomInput
 						label={"First name"}
 						id={"first_name"}
-						placeholder={"John"}
+						placeholder={"Jitesh"}
 						type={"text"}
 					/>
 					<CustomInput
 						label={"Last name"}
 						id={"last_name"}
-						placeholder={"Doe"}
+						placeholder={"Puri"}
 						type={"text"}
 					/>
 					<CustomInput
 						label={"Email address"}
 						id={"email"}
-						placeholder={"john.doe@example.com"}
+						placeholder={"jitesh.puri@gmail.com"}
 						type={"email"}
 					/>
 					<CustomInput
 						label={"Phone number"}
 						id={"phone"}
-						placeholder={"123-45-6789"}
+						placeholder={"+91-8788818596"}
 						pattern={"[0-9]{3}-[0-9]{2}-[0-9]{4}"}
 						type={"tel"}
 					/>
@@ -39,4 +39,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default MyProfile;
