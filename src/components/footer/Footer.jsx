@@ -9,7 +9,7 @@ const Footer = () => {
     const path = usePathname();
     return (
         <>
-            {path == "/signin" || path == "/signup" ||path == "/founders" ?  <></> :
+            {path == "/signin" || path == "/signup" ||path == "/founders" | path=="/founders/signin" ?  <></> :
                 <footer className="bg-gray-900 w-full">
                     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                         <div className="md:flex md:justify-between">
@@ -24,7 +24,7 @@ const Footer = () => {
                                     <h2 className="mb-6 text-sm font-semibold uppercase text-white">Get To Know Us</h2>
                                     <ul className="text-gray-400 font-medium">
                                         <li className="mb-4">
-                                            <Link href="/aboutUs" className="hover:underline">About Us</Link>
+                                            <Link href="/about" className="hover:underline">About Us</Link>
                                         </li>
                                         <li className="mb-4">
                                             <Link href="/contactUs" className="hover:underline">Contact Us</Link>
