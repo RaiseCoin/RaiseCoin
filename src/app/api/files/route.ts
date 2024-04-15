@@ -1,10 +1,13 @@
 import { NextResponse, NextRequest } from "next/server";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
 >>>>>>> a440f14929284526e2dafa6f7099c14e8a0d60e3
+=======
+>>>>>>> 87784db6993610cb4f0b3958abc599b127142dbe
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
