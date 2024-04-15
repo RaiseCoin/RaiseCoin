@@ -1,26 +1,98 @@
-import React from 'react'
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
+"use client";
+import React, { useState, useEffect } from "react";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
+import toast from "react-hot-toast";
+import { uploadImage } from '../../../utils/uploadImage';
 
 const page = () => {
+  const [isClient, setIsClient] = useState(false);
+  const [ventureName, setVentureName] = useState("");
+  const [officialEmail, setOfficialEmail] = useState("");
+  const [file, setFile] = useState("");
+  const [imageHash, setImageHash] = useState("");
+  const { address } = useAccount();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!file || !ventureName || !officialEmail) {
+      toast.error("Fill entire form");
+    }
+    try {
+      const ipfsHash = await uploadImage(file); // Upload the file and get the IPFS hash
+      setImageHash(ipfsHash); // Store the IPFS hash in state
+      alert("File uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert(error.message);
+    }
+    const payload = {
+      data: {
+        startupName:ventureName,
+        email: officialEmail, // Assuming 'mobile' should be sent as 'number'
+        address: address,
+        displayImg: `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${imageHash}`
+      },
+    };
+
+    // Replace `base_url` with your actual base URL
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        console.log("Signup successful");
+        toast.success("Profile Created");
+        // Reset form or redirect user as needed
+      } else {
+        console.log("Signup failed", response);
+        toast.error("Signup failed");
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      toast.error(`Error during signup: ${error.message}`);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   return (
-    <div className='bg-gray-800'>
-         <div className="flex justify-between items-center py-3 w-[87%] mx-auto bg-gray-800">
+    <>
+      {!isClient ? (
+        <></>
+      ) : (
+        <div className="bg-gray-800">
+          <div className="flex justify-between items-center py-3 w-[87%] mx-auto bg-gray-800">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
-                <Image src="/logoWhite.png" width={400} height={100} alt="Logo" className="w-40 to-white" />
+                <Image
+                  src="/logoWhite.png"
+                  width={400}
+                  height={100}
+                  alt="Logo"
+                  className="w-40 to-white"
+                />
               </Link>
-              
-              
             </div>
-            <div className="hidden md:flex items-center space-x-9">
-             
-             
-            </div>
+            <div className="hidden md:flex items-center space-x-9"></div>
             <div className="md:hidden flex items-center">
               <button className="outline-none mobile-menu-button">
-                {/* <svg
+                <svg
                   className=" w-6 h-6 text-gray-500 hover:text-green-500 "
                   x-show="!showMenu"
                   fill="none"
@@ -31,77 +103,175 @@ const page = () => {
                   stroke="currentColor"
                 >
                   <path d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg> */}
+                </svg>
               </button>
             </div>
-            
           </div>
           <div className="bg-gray-800 min-h-screen min-w-[87%] flex justify-center items-center">
-      <Head>
-        <title>Register</title>
-      </Head>
+            <Head>
+              <title>Register</title>
+            </Head>
 
-      <div className="container py-5  w-[60%]">
-        <h1 className=" text-sm md:text-xl font-bold text-white mb-4 text-center">Raise your round with the best! <br /> <h1 className=' text-2xl md:text-3xl'> Become a RaiseCoin Invester!</h1></h1>
-        <p className="text-gray-300 mb-8 text-center">
-          Already a member? <a href="/founders/signin" className=' text-blue-400'> Sign in.</a>
-        </p>
+            <div className="container py-5  w-[60%]">
+              <h1 className=" text-sm md:text-xl font-bold text-white mb-4 text-center">
+                Raise your round with the best! <br />{" "}
+                <h1 className=" text-2xl md:text-3xl">
+                  {" "}
+                  Become a RaiseCoin Invester!
+                </h1>
+              </h1>
+              <p className="text-gray-300 mb-8 text-center">
+                Already a member?{" "}
+                <a href="/founders/signin" className=" text-blue-400">
+                  {" "}
+                  Sign in.
+                </a>
+              </p>
 
-        <form className="w-full">
-          <div className="mb-6">
-            <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="first-name">
-              Your Name
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="first-name" type="text" placeholder="Enter Full Name" />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="last-name">
-              Name of your Venture
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="last-name" type="text" placeholder="E.g. Vilson Hydrations" />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="email">
-              Official Email
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="email@example.com" />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="message">
-              Overview of your Venture
-            </label>
-            <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="message" placeholder="Describe your Startup" rows="4"></textarea>
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="message">
-              Your Pitch
-            </label>
-            <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="message" placeholder="Enter your message" rows="4"></textarea>
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="last-name">
-              Previous Funding
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="last-name" type="text" placeholder="" />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="last-name">
-              Valuation
-            </label>
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="last-name" type="text" placeholder="" />
-          </div>
-          {/* Submit */}
-          <div className="flex items-center justify-between">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Enroll Now
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-    </div>
-    
-  )
-}
+              <form className="w-full" onSubmit={handleSubmit}>
+                <div className="mb-6">
+                  <label
+                    className="block text-gray-200 text-sm font-bold mb-2"
+                    htmlFor="venture-name"
+                  >
+                    Name of your Venture
+                  </label>
+                  <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="venture-name"
+                    type="text"
+                    placeholder="E.g. Vilson Hydrations"
+                    value={ventureName}
+                    onChange={(e) => setVentureName(e.target.value)}
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    className="block text-gray-200 text-sm font-bold mb-2"
+                    htmlFor="official-email"
+                  >
+                    Official Email
+                  </label>
+                  <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="official-email"
+                    type="email"
+                    placeholder="email@example.com"
+                    value={officialEmail}
+                    onChange={(e) => setOfficialEmail(e.target.value)}
+                  />
+                </div>
+                <div className="mb-6">
+                  <label className="block text-gray-200 text-sm font-bold mb-2">
+                    Upload Image
+                  </label>
+                  <input
+                    type="file"
+                    onChange={handleFileChange}
+                    className="shadow appearance-none border rounded py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
 
-export default page
+                <ConnectButton
+                  chainStatus="none"
+                  label="Connect wallet"
+                  showBalance={false}
+                />
+
+                <div className="flex items-center justify-between">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit"
+                  >
+                    Enroll Now
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default page;
+
+// image upload example
+// "use client"
+
+// import { useState } from 'react';
+// import { uploadImage } from '../../../utils/uploadImage'; // Adjust the path as necessary
+
+// export default function Home() {
+//     const [file, setFile] = useState(""); // State to hold the selected file
+//     const [uploading, setUploading] = useState(false); // State to manage upload status
+//     const [ipfsHash, setIpfsHash] = useState(''); // State to store the returned IPFS hash
+
+//     // Handler for file selection
+//     const handleFileChange = (event) => {
+//         setFile(event.target.files[0]);
+//     };
+
+//     // Handler for form submission
+//     const handleSubmit = async (event) => {
+//         event.preventDefault(); // Prevent the default form submit action
+//         if (!file) {
+//             alert('Please select a file first!');
+//             return;
+//         }
+
+//         setUploading(true); // Indicate that uploading has started
+//         try {
+//             const ipfsHash = await uploadImage(file); // Upload the file and get the IPFS hash
+//             setIpfsHash(ipfsHash); // Store the IPFS hash in state
+//             alert('File uploaded successfully!');
+//         } catch (error) {
+//             console.error('Error uploading file:', error);
+//             alert(error.message);
+//         } finally {
+//             setUploading(false); // Reset the uploading status
+//         }
+//     };
+
+//     return (
+//         <div className="flex justify-center items-center h-screen bg-gray-100">
+//             <form onSubmit={handleSubmit} className="p-6 bg-white rounded shadow-lg">
+//                 <div className="mb-4">
+//                     <label htmlFor="fileUpload" className="block text-gray-700 text-sm font-bold mb-2">
+//                         Choose file:
+//                     </label>
+//                     <input
+//                         type="file"
+//                         id="fileUpload"
+//                         onChange={handleFileChange}
+//                         disabled={uploading}
+//                         className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+//                     />
+//                     {file && <span className="text-sm text-gray-600">{file.name}</span>}
+//                 </div>
+//                 <button
+//                     type="submit"
+//                     disabled={uploading || !file}
+//                     className={`mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${uploading || !file ? 'opacity-50 cursor-not-allowed' : ''}`}
+//                 >
+//                     {uploading ? 'Uploading...' : 'Upload to IPFS'}
+//                 </button>
+//             </form>
+//             {ipfsHash && (
+//                 <div className="mt-4 text-center">
+//                     <p>IPFS Hash:
+//                         <a
+//                             href={`https://ipfs.io/ipfs/${ipfsHash}`}
+//                             target="_blank"
+//                             rel="noopener noreferrer"
+//                             className="text-blue-500"
+//                         >
+//                             {ipfsHash}
+//                         </a>
+//                     </p>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// }

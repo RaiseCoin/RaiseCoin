@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // Import usePathname here
@@ -15,12 +15,15 @@ const Navigation = () => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect()
   const router = useRouter(); // Place this inside your component function
-
+  const [isClient, setIsClient] = useState(false)
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   const toggleMenu = () => {
     const menu = document.getElementById("mobile-menu");
     menu.classList.toggle("hidden");
   };
-
   const formatAddress = (address) =>
   address ? `${address.slice(0, 4)}...${address.slice(-3)}` : '';
 
@@ -35,7 +38,7 @@ const Navigation = () => {
   // Function to handle profile navigation
   const handleProfileClick = () => {
     setDropdownOpen(false); // Close the dropdown
-    router.push("/profile/myprofile"); // Navigate to profile page
+    router.push("/profile/dashboard"); // Navigate to profile page
   };
 
   return (
@@ -44,9 +47,11 @@ const Navigation = () => {
       path === "/signup" ||
       path === "/founders/signin" ||
       path === "/founders" ||
-      path === "/founders/signup" ? (
+      path === "/founders/signup" ||
+      !isClient ? (
         <></>
       ) : (
+        
         <nav className="shadow-lg w-full sticky top-0 z-50 bg-gray-100">
           <div className="flex justify-between items-center py-3 w-[87%] mx-auto">
             <div className="flex items-center space-x-4">
@@ -135,6 +140,7 @@ const Navigation = () => {
                   )}
                 </div>
               )}
+            
             </div>
             <div className="md:hidden flex items-center">
               <button
@@ -165,6 +171,7 @@ const Navigation = () => {
                   Start Investing
                 </Link>
               </li>
+             
               <li className="pb-3">
                 <Link
                   href="/founders"
