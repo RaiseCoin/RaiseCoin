@@ -14,7 +14,7 @@ const page = () => {
             .then(data => {
                 const transformedData = data.data.map(item => ({
 					id: item.id,
-                    image: `/recomendation_images/c_one.webp`, // Static image, consider dynamic handling if needed
+                    image: item.attributes.displayImg, // Static image, consider dynamic handling if needed
                     name: item.attributes.startupName,
                     subtitle: item.attributes.subtitle,
                     raised: `$${item.attributes.currentFunding}M`, // Adjust formatting as needed

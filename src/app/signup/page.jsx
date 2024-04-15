@@ -6,7 +6,7 @@ import { FaMobileAlt, FaRegEnvelope, FaRegUser } from "react-icons/fa";
 import Link from "next/link";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from "wagmi";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const signup = () => {
 	const [name, setName] = useState("");
