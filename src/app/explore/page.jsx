@@ -78,38 +78,38 @@ const page = () => {
 	)
 }
 
-  // ];
-  return (
-    <>
-      <div className="w-full bg-gray-50 min-h-screen">
-        {loading ? (
-          <div className="h-[90vh] w-full flex flex-row justify-center items-center">
-            <p className="w-full text-center text-black">Loading ...</p>
-          </div>
-        ) : (
-          <div className="w-3/4 m-auto py-14">
-            <h1 className="text-2xl text-green-500 font-semibold text-left pb-10">
-              {totalEntries} Current Funding Rounds
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-              {data.map((e, index) => (
-                <StockCard
-                  key={index}
-                  id={e.id}
-                  image={e.image}
-                  name={e.name}
-                  subtitle={e.subtitle}
-                  amtRaised={e.raised}
-                  noOfInvestors={e.investors}
-                  minInvestment={e.mininvestment}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </>
-  );
-};
+//   // ];
+//   return (
+//     <>
+//       <div className="w-full bg-gray-50 min-h-screen">
+//         {loading ? (
+//           <div className="h-[90vh] w-full flex flex-row justify-center items-center">
+//             <p className="w-full text-center text-black">Loading ...</p>
+//           </div>
+//         ) : (
+//           <div className="w-3/4 m-auto py-14">
+//             <h1 className="text-2xl text-green-500 font-semibold text-left pb-10">
+//               {totalEntries} Current Funding Rounds
+//             </h1>
+//             <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+//               {data.map((e, index) => (
+//                 <StockCard
+//                   key={index}
+//                   id={e.id}
+//                   image={e.image}
+//                   name={e.name}
+//                   subtitle={e.subtitle}
+//                   amtRaised={e.raised}
+//                   noOfInvestors={e.investors}
+//                   minInvestment={e.mininvestment}
+//                 />
+//               ))}
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </>
+//   );
+// };
 
 export default page;

@@ -63,13 +63,6 @@ const Navigation = () => {
                   alt="Logo"
                   className="w-40"
                 />
-                <Image
-                  src="/logoBlack.png"
-                  width={400}
-                  height={100}
-                  alt="Logo"
-                  className="w-40"
-                />
               </Link>
               {/* <div className="flex items-center border border-gray-170 rounded-xl overflow-hidden bg-white">
                 <input
@@ -147,47 +140,7 @@ const Navigation = () => {
                   )}
                 </div>
               )}
-              {!isConnected ? (
-                <>
-                  <Link
-                    href="/signin"
-                    className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="py-2 px-4 text-white bg-green-600 rounded transition duration-300 font-semibold hover:scale-105"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              ) : (
-                <div className="relative inline-block">
-                  <button
-                    onClick={toggleDropdown}
-                    className="py-2 px-4 bg-green-600 text-white rounded transition duration-300 hover:scale-105 flex items-center w-full"
-                  >
-                    {formatAddress(address)} <span className="ml-2">▼</span>
-                  </button>
-                  {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 py-2 bg-white rounded shadow-xl z-10 w-full">
-                      <a
-                        onClick={handleProfileClick}
-                        className="cursor-pointer block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
-                      >
-                        Profile
-                      </a>
-                      <a
-                        onClick={logout}
-                        className="cursor-pointer block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
-                      >
-                        Log Out
-                      </a>
-                    </div>
-                  )}
-                </div>
-              )}
+            
             </div>
             <div className="md:hidden flex items-center">
               <button
@@ -218,7 +171,7 @@ const Navigation = () => {
                   Start Investing
                 </Link>
               </li>
-              <li className="pb-3">
+             
               <li className="pb-3">
                 <Link
                   href="/founders"
