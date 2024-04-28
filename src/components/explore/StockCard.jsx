@@ -14,6 +14,7 @@ const StockCard = ({
 	link,
 }) => {
 	console.log(image);
+	
 	return (
 		<div className="bg-gray-100 shadow-md w-full text-black rounded-xl">
 			<div className="w-full rounded-t-xl flex justify-center items-center relative">
@@ -35,7 +36,7 @@ const StockCard = ({
 				<div className="grid grid-cols-3 pb-3">
 					<div>
 						<p className="text-sm text-green-500 font-bold flex items-center gap-0.5">
-							<FaEthereum />
+							
 							{amtRaised}
 						</p>
 						<p className="text-sm text-gray-500">Raised</p>
@@ -46,7 +47,7 @@ const StockCard = ({
 					</div>
 					<div>
 						<p className="text-sm text-green-500 font-bold flex items-center gap-0.5">
-							<FaEthereum />
+							{/* <FaEthereum /> */}
 							{minInvestment}
 						</p>
 						<p className="text-sm text-gray-500">Min. Investment</p>
