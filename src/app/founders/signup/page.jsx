@@ -4,9 +4,13 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
+import {useAccount,useWaitForTransactionReceipt,useWriteContract,
+} from "wagmi";
 import toast from "react-hot-toast";
 import { uploadImage } from '../../../utils/uploadImage';
+import contract_ABI from "../../../../Smart-contract/contractABI";
+import { useRouter } from "next/navigation";
+
 
 const page = () => {
   const [isClient, setIsClient] = useState(false);
@@ -15,16 +19,23 @@ const page = () => {
   const [file, setFile] = useState("");
   const [imageHash, setImageHash] = useState("");
   const { address } = useAccount();
+  const { data: hash, isPending, writeContractAsync } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+  const [btnData, setBtnData] = useState("Enroll Now");
+  const router = useRouter()
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!file || !ventureName || !officialEmail) {
       toast.error("Fill entire form");
     }
+    setBtnData("Submitting...");
+    let ipfsHash= null;
     try {
-      const ipfsHash = await uploadImage(file); // Upload the file and get the IPFS hash
-      setImageHash(ipfsHash); // Store the IPFS hash in state
-      alert("File uploaded successfully!");
+      ipfsHash = await uploadImage(file); // Upload the file and get the IPFS hash
+      //setImageHash(ipfsHash); // Store the IPFS hash in state
+      //alert("File uploaded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
       alert(error.message);
@@ -32,13 +43,13 @@ const page = () => {
     const payload = {
       data: {
         startupName:ventureName,
-        email: officialEmail, // Assuming 'mobile' should be sent as 'number'
+        email: officialEmail, 
         address: address,
-        displayImg: `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${imageHash}`
+        displayImg: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsHash}`
       },
     };
 
-    // Replace `base_url` with your actual base URL
+   
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups`;
 
     try {
@@ -51,9 +62,21 @@ const page = () => {
       });
 
       if (response.ok) {
+        const jsonResponse = await response.json(); // Parse JSON response
+        console.log("Signup successful. ID:", jsonResponse.data.id);
+
+        await writeContractAsync({
+          address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+          abi: contract_ABI,
+          chainId: 11155111,
+          functionName: "registerFounder",
+          args: [jsonResponse.data.id],
+        });
         console.log("Signup successful");
         toast.success("Profile Created");
-        // Reset form or redirect user as needed
+        setTimeout(function () {
+          router.push("/founders/portfolio");
+        }, 3000);
       } else {
         console.log("Signup failed", response);
         toast.error("Signup failed");
@@ -183,7 +206,7 @@ const page = () => {
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit"
                   >
-                    Enroll Now
+                    {btnData}
                   </button>
                 </div>
               </form>
