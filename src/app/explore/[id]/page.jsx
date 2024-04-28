@@ -52,6 +52,10 @@ const page = ({ params }) => {
 			</div>
 		);
 	}
+	const numberFormatter = new Intl.NumberFormat('en-US', {
+		notation: "compact",
+		compactDisplay: "short"
+	});
 
 	return (
 		<div className="w-full bg-gray-50 min-h-screen">
@@ -71,7 +75,7 @@ const page = ({ params }) => {
 							<p className="text-justify py-8">{details.summary} </p>
 						</div>
 						<Image
-							src={details.displayImg.data.attributes.url}
+							src={details.displayImg}
 							// src={"/recomendation_images/c_one.webp"}
 							height={300}
 							width={400}
@@ -89,8 +93,8 @@ const page = ({ params }) => {
 								Previous Funding
 							</span>
 							<span className="text-green-500 text-lg flex items-center gap-0.5">
-								<FaEthereum />
-								{details.previousFunding}
+								$
+								{numberFormatter.format(details.previousFunding)}
 							</span>
 						</div>
 						<div className="w-full bg-white rounded-md shadow cursor-pointer flex gap-4 justify-between items-center  px-6 py-4">
@@ -98,8 +102,8 @@ const page = ({ params }) => {
 								Currently rasied
 							</span>
 							<span className="text-green-500 text-lg flex items-center gap-0.5">
-								<FaEthereum />
-								{details.currentFunding}
+								$
+								{numberFormatter.format(details.currentFunding)}
 							</span>
 						</div>
 						<div className="w-full bg-white rounded-md shadow cursor-pointer flex gap-4 justify-between items-center  px-6 py-4">
@@ -115,7 +119,7 @@ const page = ({ params }) => {
 								Min. investment
 							</span>
 							<span className="text-green-500 text-lg flex items-center gap-0.5">
-								<FaEthereum />
+								$
 								{details.minInvestment}
 							</span>
 						</div>
