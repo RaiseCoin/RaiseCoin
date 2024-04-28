@@ -38,7 +38,7 @@ const Navigation = () => {
   // Function to handle profile navigation
   const handleProfileClick = () => {
     setDropdownOpen(false); // Close the dropdown
-    router.push("/profile/dashboard"); // Navigate to profile page
+    router.push("/profile/myprofile"); // Navigate to profile page
   };
 
   return (
