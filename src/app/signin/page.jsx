@@ -6,17 +6,36 @@ import React from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 import { useEffect } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount ,useReadContract} from 'wagmi';
 import { useRouter } from 'next/navigation';
-
+import toast from "react-hot-toast";
+import contract_ABI from "../../../Smart-contract/contractABI";
 const signin = () => {
-	const { isConnected } = useAccount();
+	const { address ,isConnected } = useAccount();
   const router = useRouter();
-
+  const { data: isUserRegistered } = useReadContract({
+	address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+	abi: contract_ABI,
+	chainId: 11155111,
+	functionName: "isUserRegistered",
+	args: [address],
+  });
   useEffect(() => {
     if (isConnected) {
       // Redirect to the home page after a successful connection
-      router.push('/');
+	  
+	  if (isUserRegistered) {
+		toast.success('Login Successful, Redirecting to Home Page');
+		setTimeout(function() {
+			router.push('/');
+		}, 3000);
+      
+	  }
+	  else{
+		console.log(isUserRegistered)
+		toast.error('User not registered');
+		toast.error('Please Sign Up');
+	  }
     }
   }, [isConnected, router]);
 	return (
