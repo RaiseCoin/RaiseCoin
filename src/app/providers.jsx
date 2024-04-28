@@ -1,75 +1,48 @@
-"use client";
+'use client'
 
-import React from "react";
+import '@rainbow-me/rainbowkit/styles.css';
 import {
-  RainbowKitProvider,
-  getDefaultWallets,
-  connectorsForWallets,darkTheme,lightTheme
-} from "@rainbow-me/rainbowkit";
+  getDefaultConfig,
+  RainbowKitProvider,lightTheme
+} from '@rainbow-me/rainbowkit';
+import { WagmiProvider ,http} from 'wagmi';
 import {
-  argentWallet,
-  trustWallet,
-  ledgerWallet,
-} from "@rainbow-me/rainbowkit/wallets";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { polygonMumbai, sepolia, lineaTestnet } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
+ sepolia
+} from 'wagmi/chains';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
+import * as React from 'react';
 
-const projectId = "7387b029f625e74306fdf2cf7e53df8e";
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [polygonMumbai, sepolia, lineaTestnet],
-  [publicProvider()]
-);
-
-const { wallets } = getDefaultWallets({
-  appName: "RainbowKit demo",
-  projectId,
-  chains,
+const config = getDefaultConfig({
+  appName: "My RainbowKit App",
+  projectId: "7387b029f625e74306fdf2cf7e53df8e",
+  chains: [sepolia],
+  transports: {
+    [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/gvwnMmbaVIiDGkBZitp0DQ9rs8Z2Uz5m')
+  }
 });
 
-const demoAppInfo = {
-  appName: "Rainbowkit Demo",
-};
-
-const connectors = connectorsForWallets([
-  ...wallets,
-  {
-    groupName: "Other",
-    wallets: [
-      argentWallet({ projectId, chains }),
-      trustWallet({ projectId, chains }),
-      ledgerWallet({ projectId, chains }),
-    ],
-  },
-]);
-
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
-});
+const queryClient = new QueryClient();
 
 const Providers = ({ children }) => {
-
   return (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
       <RainbowKitProvider
-      theme={lightTheme({
-        accentColor: '#16a34a',
-        accentColorForeground: 'white',
-        borderRadius: 'small',
-        fontStack: 'system',
-        overlayBlur: 'none',
-      })}
-        chains={chains}
-        appInfo={demoAppInfo}
-        modalSize="compact"
+        theme={lightTheme({
+          accentColor: "#16a34a",
+          accentColorForeground: "white",
+          borderRadius: "small",
+          fontStack: "system",
+          overlayBlur: "none",
+        })}
       >
         {children}
       </RainbowKitProvider>
-    </WagmiConfig>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 };
 
