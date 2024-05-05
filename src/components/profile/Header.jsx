@@ -20,15 +20,15 @@ const Header = () => {
 
 			<div className="flex items-center my-auto mx-4 relative z-10">
 				{/* Name */}
-				<p className="mr-4 font-bold text-2xl text-white">Jitesh Puri</p>
+				{/* <p className="mr-4 font-bold text-2xl text-white">Jitesh Puri</p> */}
 				{/* Profile pic */}
-				<div className="group relative aspect-square w-1/3 flex justify-center items-center overflow-clip rounded-full border">
-					<button
+				<div className="group relative aspect-square w-full flex justify-center items-center overflow-clip rounded-full">
+					{/* <button
 						onClick={"#"}
 						className="opacity-100 flex items-center invisible group-hover:visible absolute z-10 py-1 px-2 rounded-xl bg-green-600">
 						<FaPen className="pr-1" />
 						edit
-					</button>
+					</button> */}
 					<Image
 						width={100}
 						height={100}
