@@ -8,7 +8,8 @@ import {
   useAccount,
   useWaitForTransactionReceipt,
   useWriteContract,
-  useTransactionReceipt
+  useTransactionReceipt,
+  useTransaction,
 } from "wagmi";
 import ImageWithDescription from "../../utils/imageWithDescription";
 import { uploadImage } from "../../utils/uploadImage";
@@ -17,21 +18,29 @@ import toast from "react-hot-toast";
 import { ethers } from "ethers";
 import Lottie from "react-lottie";
 import animationData from "../../../lotties/Successfull.json";
-import {Grid} from "react-loader-spinner";
+import { Grid } from "react-loader-spinner";
+import { getTransaction } from "viem/actions";
+// import transactionReceipt from "../../utils/transactionReceipt";
 
 const PopUp = ({ handleOpen, details }) => {
   const [amt, setAmt] = useState(500);
   const [confirmPage, setConfirmPage] = useState(false);
   const [price, setPrice] = useState(null);
   const { data: hash, isPending, writeContractAsync } = useWriteContract();
-  const { data:receipt,isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash});
   const { address } = useAccount();
   const [imageFile, setImageFile] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [showNFTPage, setShowNFTPage] = useState(false);
   const [btnText, setBtnText] = useState("Confrim Transaction");
-  const [confrimed, setConfrimed] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const [nftLink, setNftLink] = useState("");
+  const [tnxid, setTnxid] = useState("");
+  const receipt = useWaitForTransactionReceipt({
+    hash: tnxid,
+    enabled: Boolean(tnxid),
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+  });
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -40,6 +49,7 @@ const PopUp = ({ handleOpen, details }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
   useEffect(() => {
     const fetchPrice = async () => {
       try {
@@ -58,6 +68,18 @@ const PopUp = ({ handleOpen, details }) => {
 
     fetchPrice();
   }, []);
+
+  useEffect(() => {
+    if (receipt.isSuccess) {
+      console.log("transaction", parseInt(receipt.data.logs[1].data, 16));
+      setNftLink(
+        `https://testnets.opensea.io/assets/sepolia/${
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+        }/${parseInt(receipt.data.logs[1].data, 16)}`
+      );
+      setConfirmed(true);
+    }
+  }, [receipt]);
 
   const handleImageProcessed = (file) => {
     setImageFile(file);
@@ -104,7 +126,7 @@ const PopUp = ({ handleOpen, details }) => {
       alert(error.message);
     }
     const weiValue = ethers.parseEther((amt * price).toString(), "ether");
-    await writeContractAsync({
+    const tnxId = await writeContractAsync({
       address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
       abi: contract_ABI,
       chainId: 11155111,
@@ -112,16 +134,9 @@ const PopUp = ({ handleOpen, details }) => {
       args: [ipfsHash, weiValue, details.address],
       value: weiValue,
     });
-    console.log("R",receipt)
-    
-    
-
-    setNftLink(
-      `https://testnets.opensea.io/assets/sepolia/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${NFTid}`
-    );
-    setConfrimed(true);
+    setTnxid(tnxId);
   };
-  
+
   const handleBuy = () => {
     if (amt < parseInt(details.minInvestment)) {
       toast.error("Investment amount can't be less than min investment");
@@ -142,8 +157,38 @@ const PopUp = ({ handleOpen, details }) => {
   const handleToConfirm = () => {
     setConfirmPage(true);
   };
+  if (confirmed) {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="bg-white text-gray-800 p-8 rounded-lg w-1/2 flex flex-col items-center relative">
+          <ImCancelCircle
+            onClick={handleOpen}
+            className="absolute top-3 right-3 text-2xl cursor-pointer"
+          />
+          <h1 className="text-3xl font-bold">Congratulations 🎉</h1>
+          <Lottie
+            options={defaultOptions}
+            height={200}
+            width={200}
+            speed={0.1}
+          />
+          <p className="text-xl mt-4 text-green-600">Purchase successful!</p>
+          <p className="mt-4">
+            You can view your NFT{" "}
+            <a
+              href={nftLink}
+              target="_blank"
+              className="text-green-600 hover:text-green-700"
+            >
+              here
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    );
+  }
   if (confirmPage) {
-    // Render confirmation page
     return (
       <div className="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
         <div className="bg-white text-gray-800 p-8 rounded-lg w-1/2">
@@ -248,36 +293,6 @@ const PopUp = ({ handleOpen, details }) => {
               Let's Go
             </button>
           </div>
-        </div>
-      </div>
-    );
-  } else if (confrimed) {
-    return (
-      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-        <div className="bg-white text-gray-800 p-8 rounded-lg w-1/2 flex flex-col items-center relative">
-          <ImCancelCircle
-            onClick={handleOpen}
-            className="absolute top-3 right-3 text-2xl cursor-pointer"
-          />
-          <h1 className="text-3xl font-bold">Congratulations 🎉</h1>
-          <Lottie
-            options={defaultOptions}
-            height={200}
-            width={200}
-            speed={0.1}
-          />
-          <p className="text-xl mt-4 text-green-600">Purchase successful!</p>
-          <p className="mt-4">
-            You can view your NFT{" "}
-            <a
-              href={nftLink}
-              target="_blank"
-              className="text-green-600 hover:text-green-700"
-            >
-              here
-            </a>
-            .
-          </p>
         </div>
       </div>
     );
