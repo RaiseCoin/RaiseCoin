@@ -14,6 +14,10 @@ const StockCard = ({
 	link,
 }) => {
 	console.log(image);
+	const numberFormatter = new Intl.NumberFormat('en-US', {
+		notation: "compact",
+		compactDisplay: "short"
+	});
 	
 	return (
 		<div className="bg-gray-100 shadow-md w-full text-black rounded-xl">
@@ -37,7 +41,7 @@ const StockCard = ({
 					<div>
 						<p className="text-sm text-green-500 font-bold flex items-center gap-0.5">
 							
-							{amtRaised}
+							${numberFormatter.format(amtRaised)}
 						</p>
 						<p className="text-sm text-gray-500">Raised</p>
 					</div>
@@ -48,7 +52,7 @@ const StockCard = ({
 					<div>
 						<p className="text-sm text-green-500 font-bold flex items-center gap-0.5">
 							{/* <FaEthereum /> */}
-							{minInvestment}
+							${numberFormatter.format(minInvestment)}
 						</p>
 						<p className="text-sm text-gray-500">Min. Investment</p>
 					</div>

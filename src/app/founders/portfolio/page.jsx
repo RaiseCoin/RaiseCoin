@@ -1,102 +1,9 @@
-// 'use client'
-// import React, { useState } from 'react';
-// import { Line } from 'react-chartjs-2';
 
-// const UserList = ({ userList }) => {
-//   const [searchTerm, setSearchTerm] = useState('');
-
-//   const handleSearch = (e) => {
-//     setSearchTerm(e.target.value);
-//   };
-
-//   const filteredUsers = userList.filter(user =>
-//     user.name.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   return (
-//     <div>
-//       <h2>User List</h2>
-//       <input
-//         type="text"
-//         placeholder="Search users..."
-//         value={searchTerm}
-//         onChange={handleSearch}
-//       />
-//       <ul>
-//         {filteredUsers.map(user => (
-//           <li key={user.id}>{user.name}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// // export default UserList;
-
-
-// const Graph = ({ data }) => {
-//   const chartData = {
-//     labels: data.map(item => item.month),
-//     datasets: [{
-//       label: 'Investments',
-//       data: data.map(item => item.amount),
-//       backgroundColor: 'rgba(75,192,192,0.2)',
-//       borderColor: 'rgba(75,192,192,1)',
-//       borderWidth: 1
-//     }]
-//   };
-
-//   return (
-//     <div>
-//       <h2>Investments Graph</h2>
-//       <Line data={chartData} />
-//     </div>
-//   );
-// };
-
-// // export default Graph;
-
-
-
-// // import Graph from './Graph'; // Import your graph component
-// // import UserList from './UserList'; // Import your user list component
-
-// const Page = () => {
-//   // Sample data for investments
-//   const investmentsData = [
-//     { month: 'January', amount: 1000 },
-//     { month: 'February', amount: 1500 },
-//     { month: 'March', amount: 2000 },
-//     // Add more data as needed
-//   ];
-
-//   // Sample data for user list
-//   const [userList, setUserList] = useState([
-//     { id: 1, name: 'John Doe' },
-//     { id: 2, name: 'Jane Smith' },
-//     // Add more users as needed
-//   ]);
-
-//   // Handler for searching users
-//   const handleSearch = (searchTerm) => {
-//     // Perform search logic here and update userList state accordingly
-//   };
-
-//   return (
-//     <div style={{ display: 'flex', flexDirection: 'column' }}>
-//       {/* Graph of investments */}
-//       <Graph data={investmentsData} />
-
-//       {/* User list with search feature */}
-//       <UserList userList={userList} onSearch={handleSearch} />
-//     </div>
-//   );
-// };
-
-// export default Page;
 'use client'
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useAccount ,useReadContract} from 'wagmi';
+import contract_ABI from "../../../../Smart-contract/contractABI";
 
 
 export default function Page() {
@@ -111,10 +18,20 @@ export default function Page() {
   const [inv, setInv] = useState('')
   const [prevFund, setPrevFund] = useState('')
   const [price, setPrice] = useState('')
+  const [currFund, setCurrFund] = useState('')
+  const [noOfInvestors, setNoOfInvestors] = useState('')
   const [btnText, setBtnText] = useState("Submit");
+  const { address ,isConnected } = useAccount();
 
+  const { data: founderID } = useReadContract({
+		address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+		abi: contract_ABI,
+		chainId: 11155111,
+		functionName: "getFounderID",
+		args: [address],
+	  });
   useEffect(() => {
-    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${'10'}`;
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${founderID}`;
     const fetchData = async () => {
       try {
         const response = await fetch(url, {
@@ -132,6 +49,8 @@ export default function Page() {
           setInv(jsonResponse.data.attributes.minInvestment)
           setPrevFund(jsonResponse.data.attributes.previousFunding)
           setPrice(jsonResponse.data.attributes.pricePerShare)
+          setCurrFund(jsonResponse.data.attributes.currentFunding)
+          setNoOfInvestors(jsonResponse.data.attributes.noOfInvestors)
         }
         setLoading(false)
       }
@@ -141,11 +60,11 @@ export default function Page() {
       }
     }
     fetchData()
-  }, [])
+  }, [founderID])
 
   const handleSubmit = async () => {
     setBtnText("Submitting...");
-    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${10}`;
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${founderID}`;
     const payload = {
       data: {
         name: first,
@@ -157,6 +76,8 @@ export default function Page() {
         minInvestment: inv,
         previousFunding: prevFund,
         pricePerShare: price,
+        currentFunding: currFund,
+        noInvestors: noOfInvestors
       },
     };
     try {
@@ -308,6 +229,38 @@ export default function Page() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               readOnly={read}
               placeholder="ETH"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor={'currentfunding'}
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              {'Funding to Raise'}
+            </label>
+            <input
+              type={"number"}
+              value={currFund}
+              onChange={(e) => { setCurrFund(e.target.value) }}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              readOnly={read}
+              placeholder="USD"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor={'numberofinvestors'}
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              {'Number of Investors'}
+            </label>
+            <input
+              type={"number"}
+              value={noOfInvestors}
+              onChange={(e) => { setNoOfInvestors(e.target.value) }}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              readOnly={read}
+              placeholder="0"
               required
             />
           </div>

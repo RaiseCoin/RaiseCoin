@@ -17,9 +17,9 @@ const page = () => {
                     image: item.attributes.displayImg, // Static image, consider dynamic handling if needed
                     name: item.attributes.startupName,
                     subtitle: item.attributes.subtitle,
-                    raised: `$${item.attributes.currentFunding}M`, // Adjust formatting as needed
+                    raised: `${item.attributes.currentFunding}`, // Adjust formatting as needed
                     investors: item.attributes.noInvestors,
-                    mininvestment: `$${item.attributes.minInvestment}`,
+                    mininvestment: `${item.attributes.minInvestment}`,
                 }));
                 setData(transformedData);
 				setTotalEntries(data.meta.pagination.total);
