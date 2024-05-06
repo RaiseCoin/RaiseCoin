@@ -1,20 +1,49 @@
-import React from 'react'
+"use client"
+import React,{useEffect,useState} from 'react'
 import FlipCard from "@/components/profile/FlipCard";
-
+import { useAccount } from 'wagmi';
 
 
 const page = () => {
+    const { address } = useAccount();
+    const [nfts, setNfts] = React.useState([""]);
+    useEffect(() => {
+        fetchNFTsByAccount();
+        
+    }, []);
+    async function fetchNFTsByAccount() {
+        try {
+            const apiKey = '28e5d6a496124f30be51f1eeaa286ead'; // Replace 'YOUR_API_KEY' with your actual OpenSea API key
+            const apiUrl = `https://testnets-api.opensea.io/api/v2/chain/sepolia/account/${address}/nfts?collection=raise-4`;
+            const response = await fetch(apiUrl, {
+                headers: {
+                    'X-API-KEY': apiKey
+                }
+            });
+            if (!response.ok) {
+                new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setNfts(data.nfts)
+            console.log(data.nfts)
+            
+        } catch (error) {
+            console.error('Error fetching NFTs:', error);
+            
+        }
+    }
+
 
     return (
-        <div>
-            <h1 className='text-xl font-bold mb-4'>Your NFTS</h1>
-            <div className='grid grid-cols-5 w-full gap-6'>
-                <FlipCard />
-                <FlipCard />
-                <FlipCard />
-                <FlipCard />
-            </div>
+        <div className="max-h-[62vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+        <h1 className='text-xl font-bold mb-4'>Your NFTS</h1>
+        <div className='grid grid-cols-3 w-full gap-6'>
+            {nfts.map((nft, index) => (
+                <FlipCard key={index} nft={nft} />
+            ))}
         </div>
+    </div>
+    
     )
 }
 

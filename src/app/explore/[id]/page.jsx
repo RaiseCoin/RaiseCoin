@@ -61,15 +61,17 @@ const page = ({ params }) => {
 		<div className="w-full bg-gray-50 min-h-screen">
 			<CompWrapper>
 				<div className="w-4/5 flex flex-col items-start mx-auto py-10 md:py-28 text-gray-900 ">
-					<h2 className="text-gray-900  text-4xl font-bold mt-4 mb-10">
+				<p className='text-green-500 text-lg tracking-wide font-medium'>{details.subtitle}</p>
+					<h2 className="text-gray-900 text-5xl font-bold mt-4 mb-5">
 						{details.startupName}
 					</h2>
+					<div className="w-full border-t border-gray-300 mb-3"></div>
 					<div className="md:grid grid-cols-1 md:grid-cols-1 gap-x-5 gap-y-5 pb-10">
 						<div className="mt-auto">
-							<span className="text-green-500 text-lg font-medium">
+							<span className="text-green-500 text-lg font-medium  ">
 								Summary
 							</span>
-							<p className="text-justify py-8">{details.summary} </p>
+							<p className="text-justify py-5 ">{details.summary}</p>
 						</div>
 						<Image
 							src={details.displayImg}

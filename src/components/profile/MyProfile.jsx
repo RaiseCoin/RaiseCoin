@@ -1,6 +1,8 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useAccount ,useReadContract} from 'wagmi';
+import contract_ABI from "../../../Smart-contract/contractABI";
 
 const MyProfile = () => {
 	const [read, setRead] = useState(true)
@@ -9,9 +11,16 @@ const MyProfile = () => {
 	const [email, setEmail] = useState('')
 	const [ph, setPh] = useState('')
 	const [btnText, setBtnText] = useState("Update");
-
+	const { address ,isConnected } = useAccount();
+	const { data: userID } = useReadContract({
+		address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+		abi: contract_ABI,
+		chainId: 11155111,
+		functionName: "getUserID",
+		args: [address],
+	  });
 	useEffect(() => {
-		const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${'13'}`;
+		const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${userID}`;
 		const fetchData = async () => {
 			try {
 				const response = await fetch(url, {
@@ -32,11 +41,11 @@ const MyProfile = () => {
 			}
 		}
 		fetchData()
-	}, [])
+	}, [userID])
 
 	const handleSubmit = async () => {
 		setBtnText("Submitting...");
-		const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${13}`;
+		const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${userID}`;
 		const payload = {
 			data: {
 				name: first,

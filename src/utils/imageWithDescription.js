@@ -17,7 +17,11 @@ const ImageWithDescription = ({ src, description, onImageProcessed }) => {
           const size = Math.max(image.width, image.height + 120); // Additional space for description + "Powered by" + logo
           canvas.width = size;
           canvas.height = size;
-
+          
+           // Draw white background
+           ctx.fillStyle = "white";  // Set fill style to white
+           ctx.fillRect(0, 0, canvas.width, canvas.height); 
+           
           // Draw the image centered in the canvas
           ctx.drawImage(
             image,
@@ -76,6 +80,15 @@ const ImageWithDescription = ({ src, description, onImageProcessed }) => {
             logo.width * logoScale,
             logo.height * logoScale
           );
+
+          const borderWidth = 4;  // Width of the border
+        ctx.fillStyle = "#16a34a"; // TailwindCSS green600 or use any color you like
+
+        // Draw the border around the canvas
+        ctx.fillRect(0, 0, canvas.width, borderWidth); // Top border
+        ctx.fillRect(0, 0, borderWidth, canvas.height); // Left border
+        ctx.fillRect(canvas.width - borderWidth, 0, borderWidth, canvas.height); // Right border
+        ctx.fillRect(0, canvas.height - borderWidth, canvas.width, borderWidth); // Bottom border
 
           // Convert canvas to File
           canvas.toBlob((blob) => {
