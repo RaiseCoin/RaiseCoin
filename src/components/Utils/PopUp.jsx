@@ -8,8 +8,6 @@ import {
   useAccount,
   useWaitForTransactionReceipt,
   useWriteContract,
-  useTransactionReceipt,
-  useTransaction,
 } from "wagmi";
 import ImageWithDescription from "../../utils/imageWithDescription";
 import { uploadImage } from "../../utils/uploadImage";
@@ -19,8 +17,6 @@ import { ethers } from "ethers";
 import Lottie from "react-lottie";
 import animationData from "../../../lotties/Successfull.json";
 import { Grid } from "react-loader-spinner";
-import { getTransaction } from "viem/actions";
-// import transactionReceipt from "../../utils/transactionReceipt";
 
 const PopUp = ({ handleOpen, details }) => {
   const [amt, setAmt] = useState(500);
