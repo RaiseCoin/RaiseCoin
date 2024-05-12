@@ -2,12 +2,12 @@ import React from 'react'
 import Image from "next/image";
 import Link from 'next/link';
 
-const StockWidget = ({e}) => {
+const StockWidget = ({id,image,name,summary}) => {
     return (
-        <div className="bg-gray-50 w-full text-black rounded-xl shadow">
+        <div className="bg-gray-50 w-full text-black rounded-xl border border-gray-300">
             <div className="w-full rounded-t-xl flex justify-center items-center">
                 <Image
-                    src={e.image}
+                    src={image}
                     height={300}
                     width={400}
                     alt=""
@@ -16,9 +16,9 @@ const StockWidget = ({e}) => {
             </div>
 
             <div className="flex flex-col justify-center items-center p-4">
-                <p className="text-xl font-semibold self-start pb-1">{e.name}</p>
-                <p className='text-gray-500 pb-4 text-sm text-justify'>{e.review}</p>
-                <Link href={"/explore/details"} className="bg-[#023047] self-end text-white text-sm px-6 py-2 rounded-lg">
+                <p className="text-xl font-semibold self-start pb-1">{name}</p>
+                <p className='text-gray-500 pb-4 text-sm '>{summary}</p>
+                <Link href={`/explore/${id}`} className="bg-[#023047] self-end text-white text-sm px-6 py-2 rounded-lg">
                     More Details
                 </Link>
             </div>

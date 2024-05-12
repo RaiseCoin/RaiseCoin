@@ -1,6 +1,7 @@
 "use client";
 import HomeBanner from "@/components/homepage/HomeBanner";
 import Recommendations from "@/components/homepage/Recommendations";
+import ClosingSoon from "@/components/homepage/ClosingSoon";
 import Steps from "@/components/homepage/Steps";
 
 export default function Home() {
@@ -8,7 +9,7 @@ export default function Home() {
     <main className="w-full bg-white min-h-screen">
       <HomeBanner />
       <Recommendations title={"Recently Launched"} />
-      <Recommendations title={"Closing Soon"} />
+      <ClosingSoon title={"Closing Soon"} />
       <Steps />
     </main>
   );
