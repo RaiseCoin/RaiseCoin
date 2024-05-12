@@ -131,7 +131,7 @@ const page = ({ params }) => {
 						{details.overview}
 					</p>
 				</div>
-				{open && <PopUp handleOpen={handleOpen} details={details} />}
+				{open && <PopUp handleOpen={handleOpen} details={details} id={id}/>}
 			</CompWrapper>
 			<div>
       
