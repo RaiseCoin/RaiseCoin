@@ -9,7 +9,6 @@ export default function Home() {
       <HomeBanner />
       <Recommendations title={"Recently Launched"} />
       <Recommendations title={"Closing Soon"} />
-
       <Steps />
     </main>
   );
