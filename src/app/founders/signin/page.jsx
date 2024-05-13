@@ -26,9 +26,9 @@ const signin = () => {
   useEffect(() => {
     if (isConnected) {
       if (isFounderRegistered) {
-        toast.success("Login Successful, Redirecting to Home Page");
+        toast.success("Login Successful, Redirecting to your profile Page");
         setTimeout(function () {
-          router.push("/");
+          router.push("/founders/portfolio/profile");
         }, 3000);
       } else {
         console.log(isFounderRegistered);

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, use } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaEthereum } from "react-icons/fa6";
@@ -112,6 +112,7 @@ const PopUp = ({ handleOpen, details ,id}) => {
     console.log(file); // Debugging to see the file object
   };
 
+
   async function updateInvestorDetails() {
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${id}`;
     try {
@@ -124,11 +125,14 @@ const PopUp = ({ handleOpen, details ,id}) => {
         console.log(updatedInvestorDetails)
         // Append new investor data // Use existing or initialize as empty array
         updatedInvestorDetails.push({
+            userID: userID,
             name: first,
             amount: amt,
             shares: `${Math.ceil(amt / details.pricePerShare)}`,
             date: new Date().toISOString(),
-            ethPaid: (price * amt).toFixed(4)
+            ethPaid: (price * amt).toFixed(4),
+            docStatus: "Pending",
+            document: ""
         });
 
         // Prepare the body for the PATCH request
