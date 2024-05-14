@@ -69,7 +69,7 @@ const page = ({ params }) => {
           </h2>
           <div className="w-full border-t border-gray-300 mb-3"></div>
           <div className="md:grid grid-cols-1 md:grid-cols-1 gap-x-5 gap-y-5 pb-10">
-            <div className="mt-auto">
+            <div className="mt-1">
               <span className="text-green-500 text-lg font-medium  ">
                 Summary
               </span>

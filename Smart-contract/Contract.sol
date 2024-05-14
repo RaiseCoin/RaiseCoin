@@ -12,16 +12,31 @@ contract StartupInvestmentPlatform is ERC721URIStorage {
     mapping(address => uint256) public founderIDs;
     mapping(address => uint256[]) private ownedNFTs;
 
-    constructor() ERC721("StartupInvestNFT", "SINFT") {}
+    // Define an event that logs the minting of a new NFT
+    event NFTMinted(uint256 indexed newItemId, address indexed owner);
 
-    function registerUser(address userAddress, uint256 userID) public {
-        require(userIDs[userAddress] == 0, "User already registered.");
-        userIDs[userAddress] = userID;
+    constructor() ERC721("Raise", "RC") {}
+
+    // Users register themselves
+    function registerUser(uint256 userID) public {
+        require(userIDs[msg.sender] == 0, "User already registered.");
+        userIDs[msg.sender] = userID;
     }
 
-    function registerFounder(address founderAddress, uint256 founderID) public {
-        require(founderIDs[founderAddress] == 0, "Founder already registered.");
-        founderIDs[founderAddress] = founderID;
+    // Founders register themselves
+    function registerFounder(uint256 founderID) public {
+        require(founderIDs[msg.sender] == 0, "Founder already registered.");
+        founderIDs[msg.sender] = founderID;
+    }
+
+    // Check if a user is registered
+    function isUserRegistered(address userAddress) public view returns (bool) {
+        return userIDs[userAddress] != 0;
+    }
+
+    // Check if a founder is registered
+    function isFounderRegistered(address founderAddress) public view returns (bool) {
+        return founderIDs[founderAddress] != 0;
     }
 
     function getUserID(address userAddress) public view returns (uint256) {
@@ -38,12 +53,15 @@ contract StartupInvestmentPlatform is ERC721URIStorage {
         // Transfer the funds to the recipient address
         recipientAddress.transfer(paymentAmount);
 
-        // Proceed to mint the NFT to the caller's address
+        // Mint the NFT to the caller's address
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
         ownedNFTs[msg.sender].push(newItemId);
+
+        // Emit the event with the new token ID
+        emit NFTMinted(newItemId, msg.sender);
 
         return newItemId;
     }

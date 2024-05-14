@@ -23,20 +23,20 @@ const signin = () => {
     args: [address],
   });
 
-  useEffect(() => {
+  const handleLogin = () => {
     if (isConnected) {
-      if (isFounderRegistered) {
-        toast.success("Login Successful, Redirecting to your profile Page");
-        setTimeout(function () {
-          router.push("/founders/portfolio/profile");
-        }, 3000);
-      } else {
-        console.log(isFounderRegistered);
-        toast.error("Founder not registered");
-        toast.error("Please Sign Up");
-      }
+        if (isFounderRegistered) {
+            toast.success("Login Successful, Redirecting to your profile Page");
+            setTimeout(() => {
+                router.push("/founders/portfolio/profile");
+            }, 3000);
+        } else {
+            console.log(isFounderRegistered);
+            toast.error("Founder not registered");
+            toast.error("Please Sign Up");
+        }
     }
-  }, [isConnected, router]);
+};
 
   return (
     <div className="flex flex-col items-center justify-center w-full flex-1 h-[100vh] md:px-20 md:h-screen bg-gray-100 text-center">
@@ -64,7 +64,14 @@ const signin = () => {
                 label="Connect Wallet"
                 showBalance={false}
               />
+              <button
+            onClick={handleLogin}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 text-lg font-bold mt-4"
+        >
+            Login
+        </button>
             </div>
+        
           </div>
         </div>
       </div>

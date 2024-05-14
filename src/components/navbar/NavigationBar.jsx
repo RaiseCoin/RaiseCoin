@@ -23,13 +23,23 @@ const Navigation = () => {
     functionName: "isUserRegistered",
     args: [address],
     });
+    const { data: isFounderRegistered } = useReadContract({
+      address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+      abi: contract_ABI,
+      chainId: 11155111,
+      functionName: "isFounderRegistered",
+      args: [address],
+      });
+
   useEffect(() => {
     setIsClient(true)
-  }, [isUserRegistered])
+  }, [isUserRegistered,isFounderRegistered])
+
   const toggleMenu = () => {
     const menu = document.getElementById("mobile-menu");
     menu.classList.toggle("hidden");
   };
+
   const formatAddress = (address) =>
   address ? `${address.slice(0, 4)}...${address.slice(-3)}` : '';
 
@@ -43,8 +53,13 @@ const Navigation = () => {
   };
   // Function to handle profile navigation
   const handleProfileClick = () => {
-    setDropdownOpen(false); // Close the dropdown
-    router.push("/profile/myprofile"); // Navigate to profile page
+    setDropdownOpen(false); 
+    if(isUserRegistered){// Close the dropdown
+    router.push("/profile/myprofile");
+    } 
+    else{
+      router.push("/founders/portfolio/profile");
+    }
   };
 
   return (
@@ -105,7 +120,7 @@ const Navigation = () => {
                 For Founders
               </Link>
               {/* <ConnectButton chainStatus="none" label="Log in" showBalance={false}/> */}
-              {!isUserRegistered ? (
+              {!isUserRegistered && !isFounderRegistered? (
                 <>
                   <Link
                     href="/signin"
