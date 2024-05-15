@@ -164,53 +164,53 @@ const PopUp = ({ handleOpen, details ,id}) => {
 
 
   const handleTransaction = async () => {
-    setBtnText("Processing...");
-    let ipfsImageHash = null;
-    try {
-      ipfsImageHash = await uploadImage(imageFile); // Upload the file and get the IPFS hash
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert(error.message);
-    }
+    // setBtnText("Processing...");
+    // let ipfsImageHash = null;
+    // try {
+    //   ipfsImageHash = await uploadImage(imageFile); // Upload the file and get the IPFS hash
+    // } catch (error) {
+    //   console.error("Error uploading file:", error);
+    //   alert(error.message);
+    // }
 
-    const nftMetadata = {
-      name: details.startupNname,
-      descritpion: details.startupNname,
-      image: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsImageHash}`,
-      attributes: [
-        {
-          trait_type: "Investment Amount",
-          value: `$${amt}`,
-        },
-        {
-          trait_type: "Price per Share",
-          value: `$${details.pricePerShare}`,
-        },
-        {
-          trait_type: "Number of Shares",
-          value: `${Math.ceil(amt / details.pricePerShare)} shares `,
-        },
-      ],
-    };
+    // const nftMetadata = {
+    //   name: details.startupNname,
+    //   descritpion: details.startupNname,
+    //   image: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsImageHash}`,
+    //   attributes: [
+    //     {
+    //       trait_type: "Investment Amount",
+    //       value: `$${amt}`,
+    //     },
+    //     {
+    //       trait_type: "Price per Share",
+    //       value: `$${details.pricePerShare}`,
+    //     },
+    //     {
+    //       trait_type: "Number of Shares",
+    //       value: `${Math.ceil(amt / details.pricePerShare)} shares `,
+    //     },
+    //   ],
+    // };
 
-    let ipfsHash = null;
-    try {
-      ipfsHash = await uploadMetadata(nftMetadata);
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert(error.message);
-    }
-    const weiValue = ethers.parseEther((amt * price).toString(), "ether");
-    const tnxId = await writeContractAsync({
-      address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-      abi: contract_ABI,
-      chainId: 11155111,
-      functionName: "mintNFT",
-      args: [ipfsHash, weiValue, details.address],
-      value: weiValue,
-    });
+    // let ipfsHash = null;
+    // try {
+    //   ipfsHash = await uploadMetadata(nftMetadata);
+    // } catch (error) {
+    //   console.error("Error uploading file:", error);
+    //   alert(error.message);
+    // }
+    // const weiValue = ethers.parseEther((amt * price).toString(), "ether");
+    // const tnxId = await writeContractAsync({
+    //   address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+    //   abi: contract_ABI,
+    //   chainId: 11155111,
+    //   functionName: "mintNFT",
+    //   args: [ipfsHash, weiValue, details.address],
+    //   value: weiValue,
+    // });
     updateInvestorDetails();
-    setTnxid(tnxId);
+    //setTnxid(tnxId);
   };
 
   const handleBuy = () => {
