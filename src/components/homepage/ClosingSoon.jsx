@@ -1,12 +1,10 @@
-"use client"
-import StockCard from '@/components/explore/StockCard';
-import StockWidget from '@/components/homepage/StockWidget'
-import React,{useEffect,useState} from 'react'
+import React,{useState,useEffect} from "react";
 
-const page = () => {
+import StockWidget from "./StockWidget";
 
+const ClosingSoon = ({ title }) => {
 	const [data, setData] = useState([]);
-	const [totalEntries, setTotalEntries] = useState(0);
+	
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups`)
@@ -20,39 +18,33 @@ const page = () => {
                     raised: item.attributes.currentFunding, // Adjust formatting as needed
                     investors: item.attributes.noInvestors,
                     mininvestment: item.attributes.minInvestment,
-					endDate: item.attributes.endDate
-                }));
+					endDate: item.attributes.endDate,
+					summary: item.attributes.summary
+                }))
+				.sort((a, b) => new Date(a.endDate) - new Date(b.endDate)) // Sort by endDate ascending
+                .slice(0, 3);
+				
                 setData(transformedData);
+				console.log(data);
 				setTotalEntries(data.meta.pagination.total);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []); 
-	
 	return (
-		<div className="w-full bg-gray-50 min-h-screen">
-			<div className="w-3/4 m-auto py-14">
-				<h1 className="text-2xl text-green-500 font-semibold text-left pb-10">
-					{totalEntries} Current Funding Rounds
+		<div className="w-full bg-gray-100 ">
+			<div className="w-4/5 m-auto py-14">
+				<h1 className="text-3xl text-gray-700 font-semibold text-left pb-10">
+					{title}
 				</h1>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-7">
 					{data.map((e, index) => (
-						<StockCard
-							key={index}
-							id={e.id}
-							image={e.image}
-							name={e.name}
-							subtitle={e.subtitle}
-							amtRaised={e.raised}
-							noOfInvestors={e.investors}
-							minInvestment={e.mininvestment}
-							endDate={e.endDate}
-						/>
+						<StockWidget key={index} id={e.id} image={e.image} name={e.name} summary={e.summary} isClosingSoon={true} endDate={e.endDate}/>
 					))}
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 
-export default page;
+export default ClosingSoon;

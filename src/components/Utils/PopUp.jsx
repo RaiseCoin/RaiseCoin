@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, use } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaEthereum } from "react-icons/fa6";
@@ -8,6 +8,7 @@ import {
   useAccount,
   useWaitForTransactionReceipt,
   useWriteContract,
+  useReadContract
 } from "wagmi";
 import ImageWithDescription from "../../utils/imageWithDescription";
 import { uploadImage } from "../../utils/uploadImage";
@@ -18,7 +19,7 @@ import Lottie from "react-lottie";
 import animationData from "../../../lotties/Successfull.json";
 import { Grid } from "react-loader-spinner";
 
-const PopUp = ({ handleOpen, details }) => {
+const PopUp = ({ handleOpen, details ,id}) => {
   const [amt, setAmt] = useState(500);
   const [confirmPage, setConfirmPage] = useState(false);
   const [price, setPrice] = useState(null);
@@ -31,12 +32,20 @@ const PopUp = ({ handleOpen, details }) => {
   const [confirmed, setConfirmed] = useState(false);
   const [nftLink, setNftLink] = useState("");
   const [tnxid, setTnxid] = useState("");
+  const [first, setFirst] = useState('')
   const receipt = useWaitForTransactionReceipt({
     hash: tnxid,
     enabled: Boolean(tnxid),
     refetchInterval: 2000,
     refetchIntervalInBackground: true,
   });
+  const { data: userID } = useReadContract({
+		address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+		abi: contract_ABI,
+		chainId: 11155111,
+		functionName: "getUserID",
+		args: [address],
+	  });
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -61,7 +70,24 @@ const PopUp = ({ handleOpen, details }) => {
         console.error("Failed to fetch price:", error);
       }
     };
-
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${id}`;
+		const fetchData = async () => {
+			try {
+				const response = await fetch(url, {
+					method: "GET",
+				});
+				const jsonResponse = await response.json();
+				console.log(jsonResponse, "res")
+				if (jsonResponse.data) {
+					setFirst(jsonResponse.data.attributes.name)
+				}
+			}
+			catch (error) {
+				console.error("Error fetching data:", error);
+				toast.error(`Error fetching data: ${error.message}`);
+			}
+		}
+		fetchData()
     fetchPrice();
   }, []);
 
@@ -86,51 +112,105 @@ const PopUp = ({ handleOpen, details }) => {
     console.log(file); // Debugging to see the file object
   };
 
+
+  async function updateInvestorDetails() {
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${id}`;
+    try {
+        // Fetch the current data of the startup
+        let response = await fetch(url);
+        let data = await response.json();
+
+        // Check if investorDetail exists and prepare the updated data
+        let updatedInvestorDetails = details.investorDetail!=null ? details.investorDetail : [];
+        console.log(updatedInvestorDetails)
+        // Append new investor data // Use existing or initialize as empty array
+        updatedInvestorDetails.push({
+            userID: userID,
+            name: first,
+            amount: amt,
+            shares: `${Math.ceil(amt / details.pricePerShare)}`,
+            date: new Date().toISOString(),
+            ethPaid: (price * amt).toFixed(4),
+            docStatus: "Pending",
+            document: ""
+        });
+
+        // Prepare the body for the PATCH request
+        const updateData = {
+          data: {
+            investorDetail: updatedInvestorDetails
+          }
+        };
+        console.log(updateData)
+
+        // Send a PATCH request to update the startup entry
+        response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update startup details');
+        }
+
+        console.log('Investor details updated successfully');
+    } catch (error) {
+        console.error('Error updating investor details:', error);
+    }
+}
+
+
   const handleTransaction = async () => {
-    setBtnText("Processing...");
-    let ipfsImageHash = null;
-    try {
-      ipfsImageHash = await uploadImage(imageFile); // Upload the file and get the IPFS hash
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert(error.message);
-    }
-    const nftMetadata = {
-      name: details.startupNname,
-      descritpion: details.startupNname,
-      image: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsImageHash}`,
-      attributes: [
-        {
-          trait_type: "Investment Amount",
-          value: `$${amt}`,
-        },
-        {
-          trait_type: "Price per Share",
-          value: `$${details.pricePerShare}`,
-        },
-        {
-          trait_type: "Number of Shares",
-          value: `${Math.ceil(amt / details.pricePerShare)} shares `,
-        },
-      ],
-    };
-    let ipfsHash = null;
-    try {
-      ipfsHash = await uploadMetadata(nftMetadata);
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert(error.message);
-    }
-    const weiValue = ethers.parseEther((amt * price).toString(), "ether");
-    const tnxId = await writeContractAsync({
-      address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-      abi: contract_ABI,
-      chainId: 11155111,
-      functionName: "mintNFT",
-      args: [ipfsHash, weiValue, details.address],
-      value: weiValue,
-    });
-    setTnxid(tnxId);
+    // setBtnText("Processing...");
+    // let ipfsImageHash = null;
+    // try {
+    //   ipfsImageHash = await uploadImage(imageFile); // Upload the file and get the IPFS hash
+    // } catch (error) {
+    //   console.error("Error uploading file:", error);
+    //   alert(error.message);
+    // }
+
+    // const nftMetadata = {
+    //   name: details.startupNname,
+    //   descritpion: details.startupNname,
+    //   image: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsImageHash}`,
+    //   attributes: [
+    //     {
+    //       trait_type: "Investment Amount",
+    //       value: `$${amt}`,
+    //     },
+    //     {
+    //       trait_type: "Price per Share",
+    //       value: `$${details.pricePerShare}`,
+    //     },
+    //     {
+    //       trait_type: "Number of Shares",
+    //       value: `${Math.ceil(amt / details.pricePerShare)} shares `,
+    //     },
+    //   ],
+    // };
+
+    // let ipfsHash = null;
+    // try {
+    //   ipfsHash = await uploadMetadata(nftMetadata);
+    // } catch (error) {
+    //   console.error("Error uploading file:", error);
+    //   alert(error.message);
+    // }
+    // const weiValue = ethers.parseEther((amt * price).toString(), "ether");
+    // const tnxId = await writeContractAsync({
+    //   address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+    //   abi: contract_ABI,
+    //   chainId: 11155111,
+    //   functionName: "mintNFT",
+    //   args: [ipfsHash, weiValue, details.address],
+    //   value: weiValue,
+    // });
+    updateInvestorDetails();
+    //setTnxid(tnxId);
   };
 
   const handleBuy = () => {

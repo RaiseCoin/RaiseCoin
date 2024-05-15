@@ -18,7 +18,7 @@ const HomeBanner = () => {
     return (
         <div className='w-full bg-gray-950'>
             <CompWrapper>
-                <div className='w-full flex justify-between items-center h-auto md:h-[91vh]'>
+                <div className='w-full flex justify-between items-center h-auto md:h-[94vh]'>
                     <div className='flex flex-col  md:justify-between h-full py-28 w-full'>
                         <h1 className='text-gray-50 text-5xl mx-4 md:text-6xl font-bold '>Investing <br /> Redefined <span className='text-green-500'><br /> Transparent<br /> Secure<br /> Rewarding</span></h1>
                         <div className='flex gap-8 md:gap-16 text-xl mt-20 mx-4 md:text-4xl items-start justify-start w-full '>
