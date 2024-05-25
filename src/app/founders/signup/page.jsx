@@ -75,7 +75,7 @@ const page = () => {
         console.log("Signup successful");
         toast.success("Profile Created");
         setTimeout(function () {
-          router.push("/founders/portfolio");
+          router.push("/founders/portfolio/profile");
         }, 3000);
       } else {
         console.log("Signup failed", response);
@@ -99,120 +99,122 @@ const page = () => {
       {!isClient ? (
         <></>
       ) : (
-        <div className="bg-gray-800">
-          <div className="flex justify-between items-center py-3 w-[87%] mx-auto bg-gray-800">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <Image
-                  src="/logoWhite.png"
-                  width={400}
-                  height={100}
-                  alt="Logo"
-                  className="w-40 to-white"
-                />
-              </Link>
-            </div>
-            <div className="hidden md:flex items-center space-x-9"></div>
-            <div className="md:hidden flex items-center">
-              <button className="outline-none mobile-menu-button">
-                <svg
-                  className=" w-6 h-6 text-gray-500 hover:text-green-500 "
-                  x-show="!showMenu"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div className="bg-gray-800 min-h-screen min-w-[87%] flex justify-center items-center">
-            <Head>
-              <title>Register</title>
-            </Head>
+        <div className="min-h-screen flex flex-col items-center bg-white">
+  <div className="w-full bg-gray-800 py-3">
+    <div className="flex justify-between items-center w-[87%] mx-auto">
+      <div className="flex items-center space-x-4">
+        <Link href="/" className="flex items-center space-x-2">
+          <Image
+            src="/logoWhite.png"
+            width={400}
+            height={100}
+            alt="Logo"
+            className="w-40"
+          />
+        </Link>
+      </div>
+      <div className="hidden md:flex items-center space-x-9"></div>
+      <div className="md:hidden flex items-center">
+        <button className="outline-none mobile-menu-button">
+          <svg
+            className="w-6 h-6 text-gray-500 hover:text-green-600"
+            x-show="!showMenu"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
-            <div className="container py-5  w-[60%]">
-              <h1 className=" text-sm md:text-xl font-bold text-white mb-4 text-center">
-                Raise your round with the best! <br />{" "}
-                <h1 className=" text-2xl md:text-3xl">
-                  {" "}
-                  Become a RaiseCoin Invester!
-                </h1>
-              </h1>
-              <p className="text-gray-300 mb-8 text-center">
-                Already a member?{" "}
-                <a href="/founders/signin" className=" text-blue-400">
-                  {" "}
-                  Sign in.
-                </a>
-              </p>
+  <div className="w-full flex justify-center items-center mt-8">
+    <Head>
+      <title>Register</title>
+    </Head>
 
-              <form className="w-full" onSubmit={handleSubmit}>
-                <div className="mb-6">
-                  <label
-                    className="block text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="venture-name"
-                  >
-                    Name of your Venture
-                  </label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="venture-name"
-                    type="text"
-                    placeholder="E.g. Vilson Hydrations"
-                    value={ventureName}
-                    onChange={(e) => setVentureName(e.target.value)}
-                  />
-                </div>
-                <div className="mb-6">
-                  <label
-                    className="block text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="official-email"
-                  >
-                    Official Email
-                  </label>
-                  <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="official-email"
-                    type="email"
-                    placeholder="email@example.com"
-                    value={officialEmail}
-                    onChange={(e) => setOfficialEmail(e.target.value)}
-                  />
-                </div>
-                <div className="mb-6">
-                  <label className="block text-gray-200 text-sm font-bold mb-2">
-                    Upload Image
-                  </label>
-                  <input
-                    type="file"
-                    onChange={handleFileChange}
-                    className="shadow appearance-none border rounded py-2 px-3 text-white-700 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                </div>
+    <div className="container py-8 w-[80%] max-w-2xl bg-white shadow-lg rounded-lg px-6 border-2 border-green-600">
+      <h1 className="text-sm md:text-xl font-bold text-center text-gray-800 mb-4">
+        Raise your round with the best! <br />
+        <span className="text-2xl md:text-3xl text-green-600">Become a RaiseCoin Investor!</span>
+      </h1>
+      <p className="text-gray-600 mb-8 text-center">
+        Already a member?{" "}
+        <a href="/founders/signin" className="text-green-600">
+          Sign in.
+        </a>
+      </p>
 
-                <ConnectButton
-                  chainStatus="none"
-                  label="Connect wallet"
-                  showBalance={false}
-                />
-
-                <div className="flex items-center justify-between">
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="submit"
-                  >
-                    {btnData}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+      <form className="w-full" onSubmit={handleSubmit}>
+        <div className="mb-6">
+          <label
+            className="block text-gray-800 text-sm font-bold mb-2"
+            htmlFor="venture-name"
+          >
+            Name of your Venture
+          </label>
+          <input
+            className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline border-green-600 rounded"
+            id="venture-name"
+            type="text"
+            placeholder="E.g. Vilson Hydrations"
+            value={ventureName}
+            onChange={(e) => setVentureName(e.target.value)}
+          />
         </div>
+        <div className="mb-6">
+          <label
+            className="block text-gray-800 text-sm font-bold mb-2"
+            htmlFor="official-email"
+          >
+            Official Email
+          </label>
+          <input
+            className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline border-green-600 rounded"
+            id="official-email"
+            type="email"
+            placeholder="email@example.com"
+            value={officialEmail}
+            onChange={(e) => setOfficialEmail(e.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-800 text-sm font-bold mb-2">
+            Upload Image
+          </label>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="shadow appearance-none border rounded-lg py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline border-green-600 rounded"
+          />
+        </div>
+
+
+        <div className="flex items-center justify-around mt-6">
+        <ConnectButton
+          chainStatus="none"
+          label="Connect wallet"
+          showBalance={false}
+        />
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            {btnData}
+          </button>
+          
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
       )}
     </>
   );

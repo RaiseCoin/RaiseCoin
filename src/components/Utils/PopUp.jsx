@@ -8,7 +8,7 @@ import {
   useAccount,
   useWaitForTransactionReceipt,
   useWriteContract,
-  useReadContract
+  useReadContract,
 } from "wagmi";
 import ImageWithDescription from "../../utils/imageWithDescription";
 import { uploadImage } from "../../utils/uploadImage";
@@ -19,7 +19,7 @@ import Lottie from "react-lottie";
 import animationData from "../../../lotties/Successfull.json";
 import { Grid } from "react-loader-spinner";
 
-const PopUp = ({ handleOpen, details ,id}) => {
+const PopUp = ({ handleOpen, details, id }) => {
   const [amt, setAmt] = useState(500);
   const [confirmPage, setConfirmPage] = useState(false);
   const [price, setPrice] = useState(null);
@@ -32,7 +32,7 @@ const PopUp = ({ handleOpen, details ,id}) => {
   const [confirmed, setConfirmed] = useState(false);
   const [nftLink, setNftLink] = useState("");
   const [tnxid, setTnxid] = useState("");
-  const [first, setFirst] = useState('')
+  const [first, setFirst] = useState("");
   const receipt = useWaitForTransactionReceipt({
     hash: tnxid,
     enabled: Boolean(tnxid),
@@ -40,12 +40,12 @@ const PopUp = ({ handleOpen, details ,id}) => {
     refetchIntervalInBackground: true,
   });
   const { data: userID } = useReadContract({
-		address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-		abi: contract_ABI,
-		chainId: 11155111,
-		functionName: "getUserID",
-		args: [address],
-	  });
+    address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+    abi: contract_ABI,
+    chainId: 11155111,
+    functionName: "getUserID",
+    args: [address],
+  });
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -70,24 +70,23 @@ const PopUp = ({ handleOpen, details ,id}) => {
         console.error("Failed to fetch price:", error);
       }
     };
-    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${id}`;
-		const fetchData = async () => {
-			try {
-				const response = await fetch(url, {
-					method: "GET",
-				});
-				const jsonResponse = await response.json();
-				console.log(jsonResponse, "res")
-				if (jsonResponse.data) {
-					setFirst(jsonResponse.data.attributes.name)
-				}
-			}
-			catch (error) {
-				console.error("Error fetching data:", error);
-				toast.error(`Error fetching data: ${error.message}`);
-			}
-		}
-		fetchData()
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${userID}`;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+        });
+        const jsonResponse = await response.json();
+        console.log(jsonResponse, "res");
+        if (jsonResponse.data) {
+          setFirst(jsonResponse.data.attributes.name);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast.error(`Error fetching data: ${error.message}`);
+      }
+    };
+    fetchData();
     fetchPrice();
   }, []);
 
@@ -100,6 +99,7 @@ const PopUp = ({ handleOpen, details ,id}) => {
         }/${parseInt(receipt.data.logs[1].data, 16)}`
       );
       setConfirmed(true);
+      updateUserInvestmentDetails();
     }
   }, [receipt]);
 
@@ -112,56 +112,114 @@ const PopUp = ({ handleOpen, details ,id}) => {
     console.log(file); // Debugging to see the file object
   };
 
-
   async function updateInvestorDetails() {
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${id}`;
     try {
-        // Fetch the current data of the startup
-        let response = await fetch(url);
-        let data = await response.json();
+      // Fetch the current data of the startup
+      let response = await fetch(url);
+      let data = await response.json();
 
-        // Check if investorDetail exists and prepare the updated data
-        let updatedInvestorDetails = details.investorDetail!=null ? details.investorDetail : [];
-        console.log(updatedInvestorDetails)
-        // Append new investor data // Use existing or initialize as empty array
-        updatedInvestorDetails.push({
-            userID: userID,
-            name: first,
-            amount: amt,
-            shares: `${Math.ceil(amt / details.pricePerShare)}`,
-            date: new Date().toISOString(),
-            ethPaid: (price * amt).toFixed(4),
-            docStatus: "Pending",
-            document: ""
-        });
+      // Check if investorDetail exists and prepare the updated data
+      let updatedInvestorDetails =
+        details.investorDetail != null ? details.investorDetail : [];
+      console.log(updatedInvestorDetails);
+      // Append new investor data // Use existing or initialize as empty array
+      updatedInvestorDetails.push({
+        userID: userID,
+        name: first,
+        amount: amt,
+        shares: `${Math.ceil(amt / details.pricePerShare)}`,
+        date: new Date().toISOString(),
+        ethPaid: (price * amt).toFixed(4),
+        docStatus: "Pending",
+        document: "",
+      });
 
-        // Prepare the body for the PATCH request
-        const updateData = {
-          data: {
-            investorDetail: updatedInvestorDetails
-          }
-        };
-        console.log(updateData)
-
-        // Send a PATCH request to update the startup entry
-        response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updateData)
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to update startup details');
+      // Prepare the body for the PATCH request
+      const updateData = {
+        data: {
+          investorDetail: updatedInvestorDetails,
+        },
+      };
+      console.log(updateData);
+      const replacer = (key, value) => {
+        if (typeof value === "bigint") {
+          return value.toString();
         }
+        return value;
+      };
+      // Send a PATCH request to update the startup entry
+      response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData, replacer),
+      });
 
-        console.log('Investor details updated successfully');
+      if (!response.ok) {
+        throw new Error("Failed to update startup details");
+      }
+
+      console.log("Investor details updated successfully");
     } catch (error) {
-        console.error('Error updating investor details:', error);
+      console.error("Error updating investor details:", error);
     }
-}
+  }
 
+  async function updateUserInvestmentDetails() {
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${userID}`;
+    try {
+      // Fetch the current data of the user
+      let response = await fetch(url);
+      let data = await response.json();
+
+      // Check if investmentDetail exists and prepare the updated data
+      let updatedInvestmentDetails =
+        data.investmentDetail != null ? data.investmentDetail : [];
+
+      // Append new investment data
+      updatedInvestmentDetails.push({
+        companyNamed: details.startupName,
+        startupID: id,
+        document: "",
+        shares: `${Math.ceil(amt / details.pricePerShare)}`,
+        nftId: `${parseInt(receipt.data.logs[1].data, 16)}`,
+        shareValueInEth: (price * amt).toFixed(4),
+        dateOfPurchase: new Date().toISOString(),
+        status: "Pending",
+      });
+
+      // Prepare the body for the PATCH request
+      const updateData = {
+        data: {
+          investmentDetail: updatedInvestmentDetails,
+        },
+      };
+      const replacer = (key, value) => {
+        if (typeof value === "bigint") {
+          return value.toString();
+        }
+        return value;
+      };
+      // Send a PATCH request to update the user entry
+      response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData, replacer),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user investment details");
+      }
+
+      console.log("User investment details updated successfully");
+    } catch (error) {
+      console.error("Error updating user investment details:", error);
+    }
+  }
 
   const handleTransaction = async () => {
     setBtnText("Processing...");
@@ -210,6 +268,7 @@ const PopUp = ({ handleOpen, details ,id}) => {
       value: weiValue,
     });
     updateInvestorDetails();
+
     setTnxid(tnxId);
   };
 
@@ -350,7 +409,7 @@ const PopUp = ({ handleOpen, details ,id}) => {
             <div className="h-6"></div>
             <ImageWithDescription
               src={details.displayImg}
-              description={`By acquiring this NFT, you agree to the Terms of Investment as stipulated by Raisecoin and are lawfully investing in ${details.startupNname}. This token signifies your consent and represents proof of your investment made through Raisecoin.`}
+              description={`By acquiring this NFT, you agree to the Terms of Investment as stipulated by Raisecoin and are lawfully investing in ${details.startupName}. This token signifies your consent and represents proof of your investment made through Raisecoin.`}
               onImageProcessed={handleImageProcessed}
             />
             {imageUrl && (

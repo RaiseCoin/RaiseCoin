@@ -3,10 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import contract_ABI from "../../../../../Smart-contract/contractABI";
 import { FaAngleDown, FaUpload, FaFileAlt, FaU } from "react-icons/fa6";
+import { uploadDocument } from "../../../../utils/uploadDocument";
 
 const page = () => {
   const [investors, setInvestors] = useState([]);
   const { address, isConnected } = useAccount();
+  const [selectedFile, setSelectedFile] = useState("");
+
+  const fileInputRef = React.createRef();
 
   const { data: founderID } = useReadContract({
     address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
@@ -37,9 +41,24 @@ const page = () => {
     fetchData();
   }, [founderID]);
 
-  async function handleDocStatusChange(index, newStatus, docStatus) {
+  const onFileSelect = () => {
+    const file = fileInputRef.current.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  async function handleDocStatusChange(index, newStatus, docStatus,id) {
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${founderID}`;
     if (docStatus != newStatus) {
+
+      let ipfsDocHash = null;
+      try {
+        ipfsDocHash = await uploadDocument(selectedFile); // Upload the file and get the IPFS hash
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        alert(error.message);
+      }
       try {
         // Fetch the current data of the startup
         const response = await fetch(url, {
@@ -49,10 +68,11 @@ const page = () => {
         console.log(jsonResponse, "res");
 
         // Update the document status in the investor details
+        const docLink=`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsDocHash}`
         const updatedInvestorDetails =
           jsonResponse.data.attributes.investorDetail.map((investor, i) => {
             if (i === index) {
-              return { ...investor, docStatus: newStatus };
+              return { ...investor, document: docLink,docStatus: newStatus };
             }
             return investor;
           });
@@ -61,6 +81,52 @@ const page = () => {
         const updateData = {
           ...jsonResponse.data, // spread the existing startup data
           investorDetail: updatedInvestorDetails, // updated investor details
+        };
+
+        // Send a PUT request to update the entire startup entry
+        const updateResponse = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: updateData }),
+        });
+        handleUserStatusChange(id,docLink);
+
+        if (!updateResponse.ok) {
+          throw new Error("Failed to update document status");
+        }
+
+        console.log("Document status updated successfully");
+      } catch (error) {
+        console.error("Error updating document status:", error);
+      }
+    }
+  }
+  async function handleUserStatusChange(id,docLink){
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${id}`;
+      try {
+        // Fetch the current data of the startup
+        const response = await fetch(url, {
+          method: "GET",
+        });
+        const jsonResponse = await response.json();
+  
+
+        // Update the document status in the investor details
+        const updatedInvestmentDetails =
+          jsonResponse.data.attributes.investmentDetail.map((startup, i) => {
+            if (founderID==startup.startupID) {
+              console.log(startup, "start")
+              return { ...startup, document: docLink,status: "Approved"  };
+            }
+            return startup;
+          });
+
+        // Prepare the body for the PUT request with the entire updated startup data
+        const updateData = {
+          ...jsonResponse.data, // spread the existing startup data
+          investmentDetail: updatedInvestmentDetails, // updated investor details
         };
 
         // Send a PUT request to update the entire startup entry
@@ -80,7 +146,7 @@ const page = () => {
       } catch (error) {
         console.error("Error updating document status:", error);
       }
-    }
+    
   }
 
   return (
@@ -130,25 +196,36 @@ const page = () => {
                 {investor.ethPaid}
               </td>
               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                {investor.document !="" ? (
-                    <a
+                {investor.document != "" ? (
+                  <a
                     href={investor.document}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center px-0.5 py-1 bg-white border border-gray-300 rounded text-green-600 text-sm cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-                >
+                  >
                     View Document
-                    
-                </a>
+                  </a>
                 ) : (
+                  <div>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      style={{ display: "none" }}
+                      onChange={onFileSelect}
+                    />
                     <button
-                    className="flex items-center justify-center px-3 py-1 bg-white border border-gray-300 rounded text-green-600 text-sm cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-                    onClick={() => handleUploadDocument(investor.id)}
-                >
-                    Upload
-                    <FaUpload className="ml-2" />
-                </button>
-                
+                      className="flex items-center justify-center px-3 py-1 bg-white border border-gray-300 rounded text-green-600 text-sm cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                      onClick={() => fileInputRef.current.click()}
+                    >
+                      Upload
+                      <FaUpload className="ml-2" />
+                    </button>
+                    {selectedFile && (
+                      <div className="mt-2 text-gray-700">
+                        {selectedFile.name}
+                      </div>
+                    )}
+                  </div>
                 )}
               </td>
 
@@ -159,7 +236,8 @@ const page = () => {
                       handleDocStatusChange(
                         index,
                         e.target.value,
-                        investor.docStatus
+                        investor.docStatus,
+                        investor.userID
                       )
                     }
                     className="w-full h-10 pl-3 pr-8 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline"

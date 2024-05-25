@@ -41,16 +41,21 @@ const HomePage = () => {
       <div className="flex items-center justify-between h-[87%] p-5 text:xl bg-white px-20 w-full">
         <div className=" w-1/2 flex justify-start flex-col items-start">
           <h1 className="text-4xl text-left font-bold mb-4 text-gray-700">
-            Welcome Founders!   <br /> Raise Your Round
-With the Best
+            Welcome Founders! <br /> Raise Your Round With the Best
           </h1>
           <p className="text-lg text-left text-gray-700 mb-4">
-          Welcome to our Founder Section! 🚀 <br/> Here, we celebrate the visionary minds and entrepreneurial spirit driving innovation forward. 
+            Welcome to our Founder Section! 🚀 <br /> Here, we celebrate the
+            visionary minds and entrepreneurial spirit driving innovation
+            forward.
           </p>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-            {" "}
-            <Link href="/founders/signup">Register </Link>
-          </button>
+          <div className="flex space-x-4">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+              <Link href="/founders/signup">Register</Link>
+            </button>
+            <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+              <Link href="/founders/signin">Login</Link>
+            </button>
+          </div>
         </div>
         <div className=" w-1/2 h-full hidden md:flex justify-center">
           <Image

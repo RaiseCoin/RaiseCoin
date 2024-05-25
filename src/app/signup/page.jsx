@@ -89,41 +89,41 @@ const signup = () => {
             <h2 className="text-3xl font-bold text-green-600 mb-2">Sign Up</h2>
             {/*green bar*/}
 
-            <div className="border-2 w-10 border-green-600 inline-block mb-5"></div>
+            <div className="border-2 w-10 border-green-600 inline-block mb-5 border-2 "></div>
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col items-center">
-                <div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
+                <div className="bg-gray-200 w-64 p-2 flex items-center mb-3 border-2 border-green-600 rounded">
                   {/*name section*/}
                   <FaRegUser className="text-gray-600 m-2" />
                   <input
                     type="text"
                     name="name"
                     placeholder="Full Name"
-                    className="bg-gray-200 outline-none text-sm flex-1"
+                    className="bg-gray-200 outline-none text-sm flex-1 text-black"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
+                <div className="bg-gray-200 w-64 p-2 flex items-center mb-3 border-2 border-green-600 rounded">
                   {/*name section*/}
                   <FaMobileAlt className="text-gray-600 m-2" />
                   <input
                     type="number"
                     name="mobile"
                     placeholder="Mobile"
-                    className="bg-gray-200 outline-none text-sm flex-1"
+                    className="bg-gray-200 outline-none text-sm flex-1 text-black"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                   />
                 </div>
-                <div className="bg-gray-200 w-64 p-2 flex items-center mb-3">
+                <div className="bg-gray-200 w-64 p-2 flex items-center mb-3 border-2 border-green-600 rounded">
                   {/*email section*/}
                   <FaRegEnvelope className="text-gray-600 m-2" />
                   <input
                     type="email"
                     name="email"
                     placeholder="Email"
-                    className="bg-gray-200 outline-none text-sm flex-1"
+                    className="bg-gray-200 outline-none text-sm flex-1 text-black"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
