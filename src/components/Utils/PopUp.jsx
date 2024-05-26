@@ -133,6 +133,7 @@ const PopUp = ({ handleOpen, details, id }) => {
         ethPaid: (price * amt).toFixed(4),
         docStatus: "Pending",
         document: "",
+        paymentStatus: "In Transit",
       });
 
       // Prepare the body for the PATCH request
@@ -188,6 +189,7 @@ const PopUp = ({ handleOpen, details, id }) => {
         shareValueInEth: (price * amt).toFixed(4),
         dateOfPurchase: new Date().toISOString(),
         status: "Pending",
+        paymentStatus: "In Transit",
       });
 
       // Prepare the body for the PATCH request
