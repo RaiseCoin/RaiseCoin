@@ -68,8 +68,8 @@ const page = ({ params }) => {
             {details.startupName}
           </h2>
           <div className="w-full border-t border-gray-300 mb-3"></div>
-          <div className="md:grid grid-cols-1 md:grid-cols-1 gap-x-5 gap-y-5 pb-10">
-            <div className="mt-1">
+          <div className=" flex justify-center gap-5 items-start w-full">
+            <div className="w-1/2 md:w-[60%]">
               <span className="text-green-500 text-lg font-medium  ">
                 Summary
               </span>
@@ -80,9 +80,11 @@ const page = ({ params }) => {
               height={300}
               width={400}
               alt=""
-              className="w-full md:flex md:w-[90%] md:ml-auto my-auto aspect-video rounded-xl object-contain"
+              className="w-1/2 md:w-[40%] md:ml-auto my-auto aspect-video rounded-xl object-contain"
             />
+          </div>
 
+          <div className="w-full md:grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5 pb-10">
             <button
               onClick={handleOpen}
               className="bg-green-500 text-white font-medium px-14 py-4 rounded hover:bg-green-600 duration-300 self-center uppercase w-fit col-span-2"
@@ -90,7 +92,7 @@ const page = ({ params }) => {
               Invest Now
             </button>
             <div className="w-full bg-white rounded-md shadow cursor-pointer flex gap-4 justify-between items-center  px-6 py-4">
-              <span className="text-gray-900 uppercase font-light my-10">
+              <span className="text-gray-900 uppercase font-light">
                 Previous Funding
               </span>
               <span className="text-green-500 text-lg flex items-center gap-0.5">
