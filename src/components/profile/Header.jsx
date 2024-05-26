@@ -1,8 +1,46 @@
+"use client"
 import Image from "next/image";
-import React from "react";
+import React, { useEffect ,useState} from "react";
 import { FaPen, FaEthereum } from "react-icons/fa6";
+import { useReadContract ,useAccount} from "wagmi";
 
+import { contract_ABI } from "../../../Smart-contract/contractABI";
 const Header = () => {
+	const { address } = useAccount();
+	const [amt, setAmt] = useState(0);
+	const { data: userID } = useReadContract({
+		address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+		abi: contract_ABI,
+		chainId: 11155111,
+		functionName: "getUserID",
+		args: [address],
+	  });
+
+	useEffect(() => {
+	const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${userID}`;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+        });
+        const jsonResponse = await response.json();
+        if (jsonResponse.data) {
+          setAmt(jsonResponse.data.attributes.InvestedValue);
+		  console.log("amt",jsonResponse.data.attributes.InvestedValue)
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast.error(`Error fetching data: ${error.message}`);
+      }
+    };
+    fetchData()
+	
+},[userID])
+
+const numberFormatter = new Intl.NumberFormat("en-US", {
+    notation: "compact",
+    compactDisplay: "short",
+  });
 	return (
 		<div className="h-[18vh] shadow-2xl w-full flex justify-between rounded-2xl mb-10 relative overflow-hidden">
 			{/* Banner Image */}
@@ -15,7 +53,7 @@ const Header = () => {
 
 			<div className="flex flex-col items-start my-auto ml-20 relative z-10">
 				<p className="text-s font-semibold">Total Investments</p>
-				<p className="text-4xl font-bold flex items-center mt-4">$ 1,233.67</p>
+				<p className="text-4xl font-bold flex items-center mt-4">$ {numberFormatter.format(amt)}</p>
 			</div>
 
 			<div className="flex items-center my-auto mx-4 relative z-10">
