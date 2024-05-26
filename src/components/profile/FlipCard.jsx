@@ -37,6 +37,7 @@ const FlipCard = ({key,nft}) => {
 
     const openUrlInNewWindow = () => {
         // Open the URL in a new window
+        console.log(metadata)
         window.open(nft.opensea_url, '_blank');
       };
     

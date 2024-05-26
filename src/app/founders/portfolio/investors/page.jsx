@@ -49,6 +49,10 @@ const page = () => {
   };
 
   async function handleDocStatusChange(index, newStatus, docStatus, id) {
+    if(newStatus === "Issued" && selectedFile === ""){
+      alert("Please upload the document");
+      return;
+    }
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${founderID}`;
     if (docStatus != newStatus) {
       let ipfsDocHash = null;
@@ -164,7 +168,7 @@ const page = () => {
               Shares Owned
             </th>
             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Eth Paid
+              Amount in ETH
             </th>
             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Document

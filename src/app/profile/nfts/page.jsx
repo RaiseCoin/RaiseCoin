@@ -14,7 +14,7 @@ const page = () => {
     async function fetchNFTsByAccount() {
         try {
             const apiKey = '28e5d6a496124f30be51f1eeaa286ead'; // Replace 'YOUR_API_KEY' with your actual OpenSea API key
-            const apiUrl = `https://testnets-api.opensea.io/api/v2/chain/sepolia/account/${address}/nfts?collection=raise-5`;
+            const apiUrl = `https://testnets-api.opensea.io/api/v2/chain/sepolia/account/${address}/nfts?collection=raise-6`;
             const response = await fetch(apiUrl, {
                 headers: {
                     'X-API-KEY': apiKey

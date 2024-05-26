@@ -31,8 +31,7 @@ const signin = () => {
         }, 3000);
       } else {
         console.log(isUserRegistered);
-        toast.error("User not registered");
-        toast.error("Please Sign Up");
+        toast.error("User not registered\nPlease Sign Up");
       }
     }
   };

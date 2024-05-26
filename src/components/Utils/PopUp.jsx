@@ -77,7 +77,6 @@ const PopUp = ({ handleOpen, details, id }) => {
           method: "GET",
         });
         const jsonResponse = await response.json();
-        console.log(jsonResponse, "res");
         if (jsonResponse.data) {
           setFirst(jsonResponse.data.attributes.name);
         }
@@ -88,7 +87,7 @@ const PopUp = ({ handleOpen, details, id }) => {
     };
     fetchData();
     fetchPrice();
-  }, []);
+  }, [userID]);
 
   useEffect(() => {
     if (receipt.isSuccess) {
@@ -212,6 +211,8 @@ const PopUp = ({ handleOpen, details, id }) => {
         },
         body: JSON.stringify(updateData, replacer),
       });
+      updateUserInvestorValue(amt);
+      updateFounderInvestedValue(amt);
 
       if (!response.ok) {
         throw new Error("Failed to update user investment details");
@@ -223,6 +224,98 @@ const PopUp = ({ handleOpen, details, id }) => {
     }
   }
 
+  async function updateUserInvestorValue(newValue) {
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${userID}`;
+  
+    try {
+      // Fetch the current user data
+      const response = await fetch(url, {
+        method: "GET",
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+  
+      const jsonResponse = await response.json();
+      
+      // Get the current investedValue
+      const currentInvestedValue = Number(jsonResponse.data.attributes.InvestedValue || 0);
+      
+      // Calculate the new total investedValue
+      const updatedInvestedValue = currentInvestedValue + Number(newValue);
+      
+      // Prepare the body for the PUT request
+      const updateData = {
+        data: {
+          InvestedValue: updatedInvestedValue,
+        },
+      };
+      
+      // Send a PUT request to update the user's investedValue
+      const updateResponse = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      });
+      
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update investedValue");
+      }
+  
+      console.log("Invested value updated successfully");
+    } catch (error) {
+      console.error("Error updating invested value:", error);
+    }
+  }
+  async function updateFounderInvestedValue(newValue){
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${id}`;
+  
+    try {
+      // Fetch the current user data
+      const response = await fetch(url, {
+        method: "GET",
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+  
+      const jsonResponse = await response.json();
+      
+      // Get the current investedValue
+      const currentInvestedValue = Number(jsonResponse.data.attributes.investmentReceived || 0);
+      
+      // Calculate the new total investedValue
+      const updatedInvestedValue = currentInvestedValue + Number(newValue);
+      
+      // Prepare the body for the PUT request
+      const updateData = {
+        data: {
+          investmentReceived: updatedInvestedValue,
+        },
+      };
+      
+      // Send a PUT request to update the user's investedValue
+      const updateResponse = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      });
+      
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update investedValue");
+      }
+  
+      console.log("Invested value updated successfully");
+    } catch (error) {
+      console.error("Error updating invested value:", error);
+    }
+  }
   const handleTransaction = async () => {
     setBtnText("Processing...");
     let ipfsImageHash = null;
@@ -270,7 +363,6 @@ const PopUp = ({ handleOpen, details, id }) => {
       value: weiValue,
     });
     updateInvestorDetails();
-
     setTnxid(tnxId);
   };
 

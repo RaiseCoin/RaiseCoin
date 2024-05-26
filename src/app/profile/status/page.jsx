@@ -261,7 +261,7 @@ const InvestmentView = () => {
               Startup Name
             </th>
             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Amount in USD
+              Amount in ETH
             </th>
             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Document
@@ -298,7 +298,7 @@ const InvestmentView = () => {
                 )}
               </td>
               <td className="px-5 py-5 border-b border-gray-200 bg-white text-left">
-                {investment.document ? (
+                {investment.document && investment.paymentStatus=="In Transit" ? (
                   <button
                     className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
                     onClick={() => {
