@@ -48,10 +48,9 @@ const page = () => {
     }
   };
 
-  async function handleDocStatusChange(index, newStatus, docStatus,id) {
+  async function handleDocStatusChange(index, newStatus, docStatus, id) {
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/startups/${founderID}`;
     if (docStatus != newStatus) {
-
       let ipfsDocHash = null;
       try {
         ipfsDocHash = await uploadDocument(selectedFile); // Upload the file and get the IPFS hash
@@ -68,11 +67,11 @@ const page = () => {
         console.log(jsonResponse, "res");
 
         // Update the document status in the investor details
-        const docLink=`https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsDocHash}`
+        const docLink = `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${ipfsDocHash}`;
         const updatedInvestorDetails =
           jsonResponse.data.attributes.investorDetail.map((investor, i) => {
             if (i === index) {
-              return { ...investor, document: docLink,docStatus: newStatus };
+              return { ...investor, document: docLink, docStatus: newStatus };
             }
             return investor;
           });
@@ -91,7 +90,7 @@ const page = () => {
           },
           body: JSON.stringify({ data: updateData }),
         });
-        handleUserStatusChange(id,docLink);
+        handleUserStatusChange(id, docLink);
 
         if (!updateResponse.ok) {
           throw new Error("Failed to update document status");
@@ -103,50 +102,48 @@ const page = () => {
       }
     }
   }
-  async function handleUserStatusChange(id,docLink){
+  async function handleUserStatusChange(id, docLink) {
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles/${id}`;
-      try {
-        // Fetch the current data of the startup
-        const response = await fetch(url, {
-          method: "GET",
-        });
-        const jsonResponse = await response.json();
-  
+    try {
+      // Fetch the current data of the startup
+      const response = await fetch(url, {
+        method: "GET",
+      });
+      const jsonResponse = await response.json();
 
-        // Update the document status in the investor details
-        const updatedInvestmentDetails =
-          jsonResponse.data.attributes.investmentDetail.map((startup, i) => {
-            if (founderID==startup.startupID) {
-              console.log(startup, "start")
-              return { ...startup, document: docLink,status: "Approved"  };
-            }
-            return startup;
-          });
-
-        // Prepare the body for the PUT request with the entire updated startup data
-        const updateData = {
-          ...jsonResponse.data, // spread the existing startup data
-          investmentDetail: updatedInvestmentDetails, // updated investor details
-        };
-
-        // Send a PUT request to update the entire startup entry
-        const updateResponse = await fetch(url, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ data: updateData }),
+      // Update the document status in the investor details
+      const updatedInvestmentDetails =
+        jsonResponse.data.attributes.investmentDetail.map((startup, i) => {
+          if (founderID == startup.startupID) {
+            console.log(startup, "start");
+            return { ...startup, document: docLink, status: "Approved" };
+          }
+          return startup;
         });
 
-        if (!updateResponse.ok) {
-          throw new Error("Failed to update document status");
-        }
+      // Prepare the body for the PUT request with the entire updated startup data
+      const updateData = {
+        ...jsonResponse.data, // spread the existing startup data
+        investmentDetail: updatedInvestmentDetails, // updated investor details
+      };
 
-        console.log("Document status updated successfully");
-      } catch (error) {
-        console.error("Error updating document status:", error);
+      // Send a PUT request to update the entire startup entry
+      const updateResponse = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: updateData }),
+      });
+
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update document status");
       }
-    
+
+      console.log("Document status updated successfully");
+    } catch (error) {
+      console.error("Error updating document status:", error);
+    }
   }
 
   return (
@@ -174,6 +171,9 @@ const page = () => {
             </th>
             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Legal Documents Status
+            </th>
+            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Payment Status
             </th>
           </tr>
         </thead>
@@ -258,6 +258,34 @@ const page = () => {
                     <FaAngleDown className="w-4 h-4 text-gray-600" />
                   </div>
                 </div>
+              </td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-left text-gray-900">
+                {investor.paymentStatus === "Rejected" ? (
+                  <span
+                    className="text-red-500 cursor-pointer"
+                    title="Transaction was rejected by the investor. Transaction amount is sent back to investor"
+                  >
+                    Rejected
+                  </span>
+                ) : investor.paymentStatus === "Approved" ? (
+                  <span
+                    className="text-green-500 cursor-pointer"
+                    title="The Transaction was approved by the investor. Transaction amount is sent to your wallet address"
+                  >
+                    Approved
+                  </span>
+                ) : investor.paymentStatus === "In Transit" ? (
+                  <span
+                    className="text-orange-500 cursor-pointer"
+                    title="In transit, transaction is under review by the investor."
+                  >
+                    In Transit
+                  </span>
+                ) : (
+                  <span className="text-gray-500 cursor-pointer">
+                    Unknown Status
+                  </span>
+                )}
               </td>
             </tr>
           ))}
