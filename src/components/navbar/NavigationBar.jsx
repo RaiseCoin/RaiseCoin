@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // Import usePathname here
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount ,useDisconnect} from "wagmi";
+import { useAccount ,useDisconnect,useReadContract} from "wagmi";
 import { useRouter } from "next/navigation";
-
+import contract_ABI from "../../../Smart-contract/contractABI";
 
 const Navigation = () => {
   const path = usePathname();
@@ -16,14 +16,30 @@ const Navigation = () => {
   const { disconnect } = useDisconnect()
   const router = useRouter(); // Place this inside your component function
   const [isClient, setIsClient] = useState(false)
- 
+  const { data: isUserRegistered } = useReadContract({
+    address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+    abi: contract_ABI,
+    chainId: 11155111,
+    functionName: "isUserRegistered",
+    args: [address],
+    });
+    const { data: isFounderRegistered } = useReadContract({
+      address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+      abi: contract_ABI,
+      chainId: 11155111,
+      functionName: "isFounderRegistered",
+      args: [address],
+      });
+
   useEffect(() => {
     setIsClient(true)
-  }, [])
+  }, [isUserRegistered,isFounderRegistered])
+
   const toggleMenu = () => {
     const menu = document.getElementById("mobile-menu");
     menu.classList.toggle("hidden");
   };
+
   const formatAddress = (address) =>
   address ? `${address.slice(0, 4)}...${address.slice(-3)}` : '';
 
@@ -37,8 +53,13 @@ const Navigation = () => {
   };
   // Function to handle profile navigation
   const handleProfileClick = () => {
-    setDropdownOpen(false); // Close the dropdown
-    router.push("/profile/myprofile"); // Navigate to profile page
+    setDropdownOpen(false); 
+    if(isUserRegistered){// Close the dropdown
+    router.push("/profile/myprofile");
+    } 
+    else{
+      router.push("/founders/portfolio/profile");
+    }
   };
 
   return (
@@ -99,7 +120,7 @@ const Navigation = () => {
                 For Founders
               </Link>
               {/* <ConnectButton chainStatus="none" label="Log in" showBalance={false}/> */}
-              {!isConnected ? (
+              {!isUserRegistered && !isFounderRegistered? (
                 <>
                   <Link
                     href="/signin"
