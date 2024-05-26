@@ -4,6 +4,7 @@ import { useAccount, useReadContract } from "wagmi";
 import contract_ABI from "../../../../../Smart-contract/contractABI";
 import { FaAngleDown, FaUpload, FaFileAlt, FaU } from "react-icons/fa6";
 import { uploadDocument } from "../../../../utils/uploadDocument";
+import toast from "react-hot-toast";
 
 const page = () => {
   const [investors, setInvestors] = useState([]);
@@ -99,10 +100,11 @@ const page = () => {
         if (!updateResponse.ok) {
           throw new Error("Failed to update document status");
         }
-
+        toast.success("Document Uploaded successfully")
         console.log("Document status updated successfully");
       } catch (error) {
         console.error("Error updating document status:", error);
+        toast.error("Error Uploading Document Please Retry!")  
       }
     }
   }

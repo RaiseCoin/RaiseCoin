@@ -89,7 +89,7 @@ const signup = () => {
             <h2 className="text-3xl font-bold text-green-600 mb-2">Sign Up</h2>
             {/*green bar*/}
 
-            <div className="border-2 w-10 border-green-600 inline-block mb-5 border-2 "></div>
+            <div className="border-2 w-10 border-green-600 inline-block mb-5"></div>
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col items-center">
                 <div className="bg-gray-200 w-64 p-2 flex items-center mb-3 border-2 border-green-600 rounded">

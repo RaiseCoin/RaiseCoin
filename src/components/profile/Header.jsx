@@ -33,7 +33,9 @@ const Header = () => {
         toast.error(`Error fetching data: ${error.message}`);
       }
     };
-    fetchData()
+	if(userID){
+		fetchData()
+	}
 	
 },[userID])
 
@@ -51,10 +53,10 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 			{/* Overlay */}
 			<div className="absolute inset-0 bg-green-600 opacity-25"></div>
 
-			<div className="flex flex-col items-start my-auto ml-20 relative z-10">
+			{amt!=0&&<div className="flex flex-col items-start my-auto ml-20 relative z-10">
 				<p className="text-s font-semibold">Total Investments</p>
 				<p className="text-4xl font-bold flex items-center mt-4">$ {numberFormatter.format(amt)}</p>
-			</div>
+			</div>}
 
 			<div className="flex items-center my-auto mx-4 relative z-10">
 				{/* Name */}

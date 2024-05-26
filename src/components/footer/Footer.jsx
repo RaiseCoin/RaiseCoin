@@ -12,14 +12,14 @@ const Footer = () => {
             {path == "/signin" || path == "/signup" ||path == "/founders" | path=="/founders/signin" ?  <></> :
                 <footer className="bg-gray-900 w-full">
                     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-                        <div className="md:flex md:justify-between">
+                        <div className="md:flex md:justify-between items-center">
                             <div className="mb-6 md:mb-0">
                                 <Link href="/" className="flex items-center">
                                     <Image width={300} height={200} src="/logo.png" className="w-150" alt="FlowBite Logo" />
                                     {/* <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span> */}
                                 </Link>
                             </div>
-                            <div className="grid  md:grid-cols-3 gap-8 sm:gap-6 grid-cols-2">
+                            <div className="grid  md:grid-cols-2 gap-8 sm:gap-6 grid-cols-2">
                                 <div>
                                     <h2 className="mb-6 text-sm font-semibold uppercase text-white">Get To Know Us</h2>
                                     <ul className="text-gray-400 font-medium">
@@ -31,7 +31,7 @@ const Footer = () => {
                                         </li>
                                     </ul>
                                 </div>
-                                <div>
+                                {/* <div>
                                     <h2 className="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
                                     <ul className="text-gray-400 font-medium">
                                         <li className="mb-4">
@@ -41,8 +41,8 @@ const Footer = () => {
                                             <Link href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</Link>
                                         </li>
                                     </ul>
-                                </div>
-                                <div>
+                                </div> */}
+                                {/* <div>
                                     <h2 className="mb-6 text-sm font-semibold uppercase text-white">Legal</h2>
                                     <ul className="text-gray-400 font-medium">
                                         <li className="mb-4">
@@ -52,7 +52,7 @@ const Footer = () => {
                                             <Link href="#" className="hover:underline">Terms &amp; Conditions</Link>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
