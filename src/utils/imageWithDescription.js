@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 const ImageWithDescription = ({ src, description, onImageProcessed }) => {
   const canvasRef = useRef(null);
-  const [isProcessed, setIsProcessed] = useState(false); // State to track if the image has been processed
+  const [isProcessed, setIsProcessed] = useState(false);
 
   useEffect(() => {
     if (!isProcessed && src && description) {
@@ -11,25 +11,38 @@ const ImageWithDescription = ({ src, description, onImageProcessed }) => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
 
+      const finalSize = 400; // Fixed output size
+
       logo.onload = () => {
         image.onload = () => {
-          // Determine the size for a square canvas, adjusting for description and logo
-          const size = Math.max(image.width, image.height + 120); // Additional space for description + "Powered by" + logo
-          canvas.width = size;
-          canvas.height = size;
-          
-           // Draw white background
-           ctx.fillStyle = "white";  // Set fill style to white
-           ctx.fillRect(0, 0, canvas.width, canvas.height); 
-           
-          // Draw the image centered in the canvas
+          // Set canvas size to final size
+          canvas.width = finalSize;
+          canvas.height = finalSize;
+
+          // Draw white background
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // Determine cropping dimensions
+          const cropWidth = Math.min(image.width, finalSize);
+          const cropHeight = Math.min(image.height, finalSize);
+          const cropX = (image.width - cropWidth) / 2;
+          const cropY = (image.height - cropHeight) / 2;
+
+          // Draw the cropped image centered in the final canvas
           ctx.drawImage(
             image,
-            (size - image.width) / 2,
-            (size - image.height - 120) / 2
+            cropX,
+            cropY,
+            cropWidth,
+            cropHeight,
+            (finalSize - cropWidth) / 2,
+            (finalSize - cropHeight) / 2,
+            cropWidth,
+            cropHeight
           );
 
-          // Draw the description in the bottom area above "Powered by" and logo
+          // Draw the description below the image
           ctx.fillStyle = "black";
           ctx.font = "10px Arial";
           ctx.textAlign = "center";
@@ -43,54 +56,54 @@ const ImageWithDescription = ({ src, description, onImageProcessed }) => {
             const testLine = lines[lineIndex] + word + " ";
             const metrics = ctx.measureText(testLine);
             const testWidth = metrics.width;
-            if (testWidth > size && lineIndex < 3) {
+            if (testWidth > finalSize && lineIndex < 3) {
               lineIndex++;
             }
             lines[lineIndex] += word + " ";
           });
 
-          // Draw each line
+          // Draw each line of the description
           lines.forEach((line, index) => {
             ctx.fillText(
               line.trim(),
-              size / 2,
-              image.height + (index + 1) * 16 + 10
+              finalSize / 2,
+              finalSize - 120 + (index + 1) * 16 + 10
             );
           });
 
-          // Calculate position for "Powered by" and logo to ensure they are centered together
-          // Calculate position for "Powered by" and logo to ensure they are centered together
+          // Calculate position for "Powered by" and logo
           const poweredByText = "Powered by";
           const poweredByWidth = ctx.measureText(poweredByText).width;
-          const logoScale = 0.2; // Change the scale as needed
-          const totalWidth = poweredByWidth + logo.width * logoScale + 10; // Corrected to include scaled logo width
+          const logoScale = 0.2; // Scale of the logo
+          const totalWidth = poweredByWidth + logo.width * logoScale + 10;
 
           // Draw "Powered by" text
           ctx.fillText(
             poweredByText,
-            (size - totalWidth) / 2 + poweredByWidth / 2,
-            image.height + 110
+            (finalSize - totalWidth) / 2 + poweredByWidth / 2,
+            finalSize - 20
           );
 
-          // Draw the logo right after "Powered by" text
+          // Draw the logo next to "Powered by" text
           ctx.drawImage(
             logo,
-            (size - totalWidth) / 2 + poweredByWidth + 10,
-            image.height + 95,
+            (finalSize - totalWidth) / 2 + poweredByWidth + 10,
+            finalSize - 35,
             logo.width * logoScale,
             logo.height * logoScale
           );
 
-          const borderWidth = 4;  // Width of the border
-        ctx.fillStyle = "#16a34a"; // TailwindCSS green600 or use any color you like
+          // Draw the border around the canvas
+          const borderWidth = 4; // Width of the border
+          ctx.fillStyle = "#16a34a"; // TailwindCSS green600
 
-        // Draw the border around the canvas
-        ctx.fillRect(0, 0, canvas.width, borderWidth); // Top border
-        ctx.fillRect(0, 0, borderWidth, canvas.height); // Left border
-        ctx.fillRect(canvas.width - borderWidth, 0, borderWidth, canvas.height); // Right border
-        ctx.fillRect(0, canvas.height - borderWidth, canvas.width, borderWidth); // Bottom border
+          // Draw the border around the canvas
+          ctx.fillRect(0, 0, finalSize, borderWidth); // Top border
+          ctx.fillRect(0, 0, borderWidth, finalSize); // Left border
+          ctx.fillRect(finalSize - borderWidth, 0, borderWidth, finalSize); // Right border
+          ctx.fillRect(0, finalSize - borderWidth, finalSize, borderWidth); // Bottom border
 
-          // Convert canvas to File
+          // Convert cropped canvas to File
           canvas.toBlob((blob) => {
             const file = new File([blob], "image_with_description.png", {
               type: "image/png",
@@ -112,31 +125,3 @@ const ImageWithDescription = ({ src, description, onImageProcessed }) => {
 };
 
 export default ImageWithDescription;
-
-
-// import ImageWithDescription from "../../../utils/imageWithDescription"
-
-// const [imageFile, setImageFile] = useState(null);
-//   const [imageUrl, setImageUrl] = useState('');
-
-//   const handleImageProcessed = (file) => {
-//     setImageFile(file);
-//     // Create a URL from the File object
-//     const url = URL.createObjectURL(file);
-//     setImageUrl(url);
-//     // Here, you might also want to upload the file to the server
-//     console.log(file); // Debugging to see the file object
-//   };
-
-
-// <ImageWithDescription
-//         src={details.displayImg}
-//         description= {`By acquiring this NFT, you agree to the Terms of Investment as stipulated by Raisecoin and are lawfully investing in ${details.startupNname}. This token signifies your consent and represents proof of your investment made through Raisecoin.`}
-//         onImageProcessed={handleImageProcessed}
-//       />
-//       {imageUrl && (
-//         <div>
-//           <p>Image processed and available for preview:</p>
-//           <img src={imageUrl} alt="Processed Image" style={{ maxWidth: '100%' }} />
-//         </div>
-//       )}

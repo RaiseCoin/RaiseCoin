@@ -37,6 +37,7 @@ const FlipCard = ({key,nft}) => {
 
     const openUrlInNewWindow = () => {
         // Open the URL in a new window
+        console.log(metadata)
         window.open(nft.opensea_url, '_blank');
       };
     
@@ -53,10 +54,10 @@ const FlipCard = ({key,nft}) => {
                         className="w-full"
                     />
                 </div>
-                <div className={`absolute inset-0 w-full h-full rounded-lg shadow-lg bg-green-500 flex flex-col whitespace-pre-wrap justify-center items-center ${isFlipped ? '-scale-x-100 z-0' : 'scale-x-100 z-10'} duration-500`}>
-                    <span className="text-white font-bold text-xl">Invested Amount: {investmentAmount} </span>
-                    <span className="text-white font-bold text-xl">Price Per Share: {pricePerShare}</span>
-                    <span className="text-white font-bold text-xl">Number of Shares: {numberOfShares} </span>
+                <div className={`absolute inset-0 w-full h-full rounded-lg shadow-lg bg-white flex flex-col whitespace-pre-wrap justify-center items-center ${isFlipped ? '-scale-x-100 z-0' : 'scale-x-100 z-10'} duration-500`}>
+                    <span className="text-green-500 font-bold text-lg">Invested Amount: {investmentAmount} </span>
+                    <span className="text-green-500 font-bold text-lg">Price Per Share: {pricePerShare}</span>
+                    <span className="text-green-500 font-bold text-lg">{numberOfShares} </span>
                 </div>
             </div>
         </div>
