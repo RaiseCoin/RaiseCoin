@@ -12,10 +12,20 @@ contract StartupInvestmentPlatform is ERC721URIStorage {
     mapping(address => uint256) public founderIDs;
     mapping(address => uint256[]) private ownedNFTs;
 
+    struct PaymentDetails {
+        uint256 amount;
+        address recipient;
+        bool isClaimed;
+    }
+
+    mapping(uint256 => PaymentDetails) public paymentDetails;
+
     // Define an event that logs the minting of a new NFT
     event NFTMinted(uint256 indexed newItemId, address indexed owner);
+    event FundsClaimed(uint256 indexed newItemId, address indexed founder);
+    event FundsReverted(uint256 indexed newItemId, address indexed user);
 
-    constructor() ERC721("Raise", "RC") {}
+    constructor() ERC721("RaiseCoin", "RC") {}
 
     // Users register themselves
     function registerUser(uint256 userID) public {
@@ -47,11 +57,8 @@ contract StartupInvestmentPlatform is ERC721URIStorage {
         return founderIDs[founderAddress];
     }
 
-    function mintNFT(string memory tokenURI, uint256 paymentAmount, address payable recipientAddress) public payable returns (uint256) {
+    function mintNFT(string memory tokenURI, uint256 paymentAmount, address recipientAddress) public payable returns (uint256) {
         require(msg.value >= paymentAmount, "Insufficient funds sent.");
-
-        // Transfer the funds to the recipient address
-        recipientAddress.transfer(paymentAmount);
 
         // Mint the NFT to the caller's address
         _tokenIds.increment();
@@ -59,6 +66,13 @@ contract StartupInvestmentPlatform is ERC721URIStorage {
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
         ownedNFTs[msg.sender].push(newItemId);
+
+        // Store payment details
+        paymentDetails[newItemId] = PaymentDetails({
+            amount: paymentAmount,
+            recipient: recipientAddress,
+            isClaimed: false
+        });
 
         // Emit the event with the new token ID
         emit NFTMinted(newItemId, msg.sender);
@@ -69,4 +83,36 @@ contract StartupInvestmentPlatform is ERC721URIStorage {
     function getOwnedNFTs(address owner) public view returns (uint256[] memory) {
         return ownedNFTs[owner];
     }
+
+    function claimFunds(uint256 tokenId) public {
+
+        require(!paymentDetails[tokenId].isClaimed, "Funds already claimed.");
+
+        PaymentDetails storage payment = paymentDetails[tokenId];
+        payment.isClaimed = true;
+
+        // Transfer the funds to the recipient address
+        payable(payment.recipient).transfer(payment.amount);
+
+        // Emit the event with the token ID
+        emit FundsClaimed(tokenId, msg.sender);
+    }
+
+    function revertFunds(uint256 tokenId) public {
+
+        require(!paymentDetails[tokenId].isClaimed, "Funds already claimed.");
+
+        PaymentDetails storage payment = paymentDetails[tokenId];
+
+        // Transfer the funds back to the user
+        payable(ownerOf(tokenId)).transfer(payment.amount);
+
+        // Mark as claimed to prevent double-spending
+        payment.isClaimed = true;
+
+        // Emit the event with the token ID
+        emit FundsReverted(tokenId, msg.sender);
+    }
+    // Receive function to accept plain Ether transfers
+    receive() external payable {}
 }
